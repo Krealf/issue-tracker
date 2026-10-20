@@ -1,0 +1,113 @@
+@use "../../styles/helpers" as *;
+
+:host {
+  display: block;
+  height: 100%;
+  min-height: 0;
+}
+
+.board {
+  --column-heading-height: #{rem(15)};
+  --column-heading-gap: #{rem(20)};
+
+  display: grid;
+  grid-template-columns: repeat(4, var(--column-width));
+  align-items: start;
+  gap: var(--board-gap);
+  height: 100%;
+  padding: var(--board-padding);
+  overflow: auto;
+  background: var(--color-background);
+
+  &__column {
+    min-width: 0;
+
+    &--todo {
+      --status-color: var(--color-todo);
+    }
+
+    &--doing {
+      --status-color: var(--color-doing);
+    }
+
+    &--done {
+      --status-color: var(--color-done);
+    }
+  }
+
+  &__column-title {
+    display: flex;
+    align-items: center;
+    gap: rem(10);
+    min-height: var(--column-heading-height);
+    margin-bottom: var(--column-heading-gap);
+    color: var(--color-muted);
+    font-size: rem(12);
+    font-weight: 700;
+    line-height: rem(15);
+    letter-spacing: rem(2.4);
+  }
+
+  &__status-dot {
+    flex-shrink: 0;
+    width: rem(13);
+    height: rem(13);
+    background: var(--status-color);
+    border-radius: 50%;
+  }
+
+  &__tasks {
+    display: flex;
+    flex-direction: column;
+    gap: rem(16);
+  }
+
+  &__new-column {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: stretch;
+    min-height: rem(400);
+    margin-top: calc(
+      var(--column-heading-height) + var(--column-heading-gap)
+    );
+    padding: rem(20);
+    color: var(--color-muted);
+    background: linear-gradient(
+      180deg,
+      rgb(228 235 250 / 75%) 0%,
+      rgb(228 235 250 / 30%) 100%
+    );
+    border: 0;
+    border-radius: var(--radius-card);
+    font-size: rem(24);
+    font-weight: 700;
+    line-height: rem(30);
+
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+}
+
+.task-card {
+  padding: rem(22) rem(14);
+  background: var(--color-surface);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+
+  &__title {
+    overflow-wrap: break-word;
+    font-size: rem(15);
+    font-weight: 700;
+    line-height: rem(19);
+  }
+
+  &__subtasks {
+    margin-top: rem(6);
+    color: var(--color-muted);
+    font-size: rem(12);
+    font-weight: 700;
+    line-height: rem(15);
+  }
+}

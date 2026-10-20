@@ -1,8 +1,11 @@
-<app-header />
-
-<main>
-  <app-dashboard />
+<div class="app-layout">
   <app-sidebar />
-</main>
+
+  <app-header />
+
+  <main class="app-layout__main" aria-label="Platform Launch board">
+    <app-dashboard />
+  </main>
+</div>
 
 <router-outlet />

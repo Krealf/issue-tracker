@@ -1,0 +1,113 @@
+<section class="task-create" aria-labelledby="task-create-title">
+  <h2 class="task-create__title" id="task-create-title">Add New Task</h2>
+
+  <div class="task-create__fields">
+    <div class="task-create__field">
+      <label class="task-create__label" for="task-title"> Title </label>
+
+      <input
+        class="task-create__control"
+        id="task-title"
+        name="title"
+        type="text"
+        placeholder="e.g. Take coffee break"
+        [(ngModel)]="taskTitle"
+      />
+
+      @if (!taskTitle.trim()) {
+        <p class="task-create__message">Поле не должно быть пустым.</p>
+      }
+    </div>
+
+    <div class="task-create__field">
+      <label class="task-create__label" for="task-description"> Description </label>
+
+      <textarea
+        class="task-create__control task-create__control--textarea"
+        id="task-description"
+        name="description"
+        rows="4"
+        placeholder="e.g. It's always good to take a break. This 15 minute break will recharge the batteries a little."
+      ></textarea>
+    </div>
+
+    <fieldset class="task-create__subtasks">
+      <legend class="task-create__label">Subtasks</legend>
+
+      <div class="task-create__subtask-list">
+        <div class="task-create__subtask">
+          <label class="sr-only" for="task-subtask-1"> Subtask 1 </label>
+
+          <input
+            class="task-create__control"
+            id="task-subtask-1"
+            name="subtask-1"
+            type="text"
+            placeholder="e.g. Make coffee"
+          />
+
+          <button class="task-create__remove" type="button" aria-label="Remove subtask 1">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path
+                d="M3 3L13 13M13 3L3 13"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
+          </button>
+        </div>
+
+        <div class="task-create__subtask">
+          <label class="sr-only" for="task-subtask-2"> Subtask 2 </label>
+
+          <input
+            class="task-create__control"
+            id="task-subtask-2"
+            name="subtask-2"
+            type="text"
+            placeholder="e.g. Drink coffee & smile"
+          />
+
+          <button class="task-create__remove" type="button" aria-label="Remove subtask 2">
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+              <path
+                d="M3 3L13 13M13 3L3 13"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+              />
+            </svg>
+          </button>
+        </div>
+      </div>
+
+      <button class="task-create__button task-create__button--secondary" type="button">
+        + Add New Subtask
+      </button>
+    </fieldset>
+
+    <div class="task-create__field">
+      <label class="task-create__label" for="task-status"> Status </label>
+
+      <select
+        class="task-create__control task-create__control--select"
+        id="task-status"
+        name="status"
+      >
+        <option value="todo">Todo</option>
+        <option value="doing">Doing</option>
+        <option value="done">Done</option>
+      </select>
+    </div>
+
+    <button
+      class="task-create__button task-create__button--primary"
+      type="button"
+      (click)="createTask()"
+      [disabled]="!taskTitle.trim()"
+    >
+      Create Task
+    </button>
+  </div>
+</section>

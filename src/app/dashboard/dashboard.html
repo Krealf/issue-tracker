@@ -1,141 +1,75 @@
 <div class="board" tabindex="0" aria-label="Board columns">
   <section class="board__column board__column--todo" aria-labelledby="todo-title">
+    @let todoTasks = getTasksByStatus('todo');
     <h2 class="board__column-title" id="todo-title">
       <span class="board__status-dot" aria-hidden="true"></span>
-      TODO (4)
+      TODO ({{ todoTasks.length }})
     </h2>
 
     <div class="board__tasks">
-      <article class="task-card">
-        <h3 class="task-card__title">
-          Build UI for onboarding flow
-        </h3>
-        <p class="task-card__subtasks">0 of 6 subtasks</p>
-      </article>
-
-      <article class="task-card">
-        <h3 class="task-card__title">Build UI for search</h3>
-        <p class="task-card__subtasks">0 of 1 subtasks</p>
-      </article>
-
-      <article class="task-card">
-        <h3 class="task-card__title">Build settings UI</h3>
-        <p class="task-card__subtasks">0 of 2 subtasks</p>
-      </article>
-
-      <article class="task-card">
-        <h3 class="task-card__title">
-          QA and test all major user journeys
-        </h3>
-        <p class="task-card__subtasks">0 of 2 subtasks</p>
-      </article>
+      @for (task of todoTasks; track task.id) {
+        <article class="task-card">
+          <h3 class="task-card__title">
+            {{ task.title }}
+          </h3>
+          <p class="task-card__subtasks">
+            {{ calculateDoneSubtasks(task.subtasks) }}
+            of {{ task.subtasks.length }} subtasks
+          </p>
+        </article>
+      } @empty {
+        No tasks in this column yet.
+      }
     </div>
   </section>
 
-  <section
-    class="board__column board__column--doing"
-    aria-labelledby="doing-title"
-  >
+  <section class="board__column board__column--doing" aria-labelledby="doing-title">
+    @let doingTasks = getTasksByStatus('doing');
     <h2 class="board__column-title" id="doing-title">
       <span class="board__status-dot" aria-hidden="true"></span>
-      DOING (6)
+      DOING ({{ doingTasks.length }})
     </h2>
 
     <div class="board__tasks">
-      <article class="task-card">
-        <h3 class="task-card__title">
-          Design settings and search pages
-        </h3>
-        <p class="task-card__subtasks">1 of 3 subtasks</p>
-      </article>
-
-      <article class="task-card">
-        <h3 class="task-card__title">
-          Add account management endpoints
-        </h3>
-        <p class="task-card__subtasks">2 of 3 subtasks</p>
-      </article>
-
-      <article class="task-card">
-        <h3 class="task-card__title">Design onboarding flow</h3>
-        <p class="task-card__subtasks">1 of 3 subtasks</p>
-      </article>
-
-      <article class="task-card">
-        <h3 class="task-card__title">Add search endpoints</h3>
-        <p class="task-card__subtasks">1 of 2 subtasks</p>
-      </article>
-
-      <article class="task-card">
-        <h3 class="task-card__title">
-          Add authentication endpoints
-        </h3>
-        <p class="task-card__subtasks">1 of 2 subtasks</p>
-      </article>
-
-      <article class="task-card">
-        <h3 class="task-card__title">
-          Research pricing points of various competitors and trial different
-          business models
-        </h3>
-        <p class="task-card__subtasks">1 of 3 subtasks</p>
-      </article>
+      @for (task of doingTasks; track task.id) {
+        <article class="task-card">
+          <h3 class="task-card__title">
+            {{ task.title }}
+          </h3>
+          <p class="task-card__subtasks">
+            {{ calculateDoneSubtasks(task.subtasks) }}
+            of {{ task.subtasks.length }} subtasks
+          </p>
+        </article>
+      } @empty {
+        No tasks in this column yet.
+      }
     </div>
   </section>
 
-  <section
-    class="board__column board__column--done"
-    aria-labelledby="done-title"
-  >
+  <section class="board__column board__column--done" aria-labelledby="done-title">
+    @let doneTasks = getTasksByStatus('done');
     <h2 class="board__column-title" id="done-title">
       <span class="board__status-dot" aria-hidden="true"></span>
-      DONE (7)
+      DONE ({{ doneTasks.length }})
     </h2>
 
     <div class="board__tasks">
-      <article class="task-card">
-        <h3 class="task-card__title">Conduct 5 wireframe tests</h3>
-        <p class="task-card__subtasks">1 of 1 subtasks</p>
-      </article>
-
-      <article class="task-card">
-        <h3 class="task-card__title">Create wireframe prototype</h3>
-        <p class="task-card__subtasks">1 of 1 subtasks</p>
-      </article>
-
-      <article class="task-card">
-        <h3 class="task-card__title">
-          Review results of usability tests and iterate
-        </h3>
-        <p class="task-card__subtasks">3 of 3 subtasks</p>
-      </article>
-
-      <article class="task-card">
-        <h3 class="task-card__title">
-          Create paper prototypes and conduct 10 usability tests with potential
-          customers
-        </h3>
-        <p class="task-card__subtasks">2 of 2 subtasks</p>
-      </article>
-
-      <article class="task-card">
-        <h3 class="task-card__title">Market discovery</h3>
-        <p class="task-card__subtasks">1 of 1 subtasks</p>
-      </article>
-
-      <article class="task-card">
-        <h3 class="task-card__title">Competitor analysis</h3>
-        <p class="task-card__subtasks">2 of 2 subtasks</p>
-      </article>
-
-      <article class="task-card">
-        <h3 class="task-card__title">Research the market</h3>
-        <p class="task-card__subtasks">2 of 2 subtasks</p>
-      </article>
+      @for (task of doneTasks; track task.id) {
+        <article class="task-card">
+          <h3 class="task-card__title">
+            {{ task.title }}
+          </h3>
+          <p class="task-card__subtasks">
+            {{ calculateDoneSubtasks(task.subtasks) }}
+            of {{ task.subtasks.length }} subtasks
+          </p>
+        </article>
+      } @empty {
+        No tasks in this column yet.
+      }
     </div>
   </section>
 
-  <button class="board__new-column" type="button">
-    + New Column
-  </button>
+  <button class="board__new-column" type="button">+ New Column</button>
 </div>

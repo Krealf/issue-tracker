@@ -1,0 +1,85 @@
+@use "../../styles/helpers" as *;
+
+:host {
+  display: block;
+  height: 100%;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: rem(16);
+  height: 100%;
+  padding: 0 rem(20);
+  background: var(--color-surface);
+  border-bottom: 1px solid var(--color-border);
+
+  &__title {
+    min-width: 0;
+    font-size: rem(24);
+    font-weight: 700;
+    line-height: rem(30);
+  }
+
+  &__actions {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    gap: rem(12);
+  }
+
+  &__add-task {
+    min-height: rem(42);
+    padding: 0 rem(24);
+    color: var(--color-surface);
+    background: var(--color-primary);
+    border: 0;
+    border-radius: var(--radius-button);
+    font-size: rem(13);
+    font-weight: 700;
+    line-height: rem(18);
+    transition: background-color 150ms ease;
+
+    @include hover() {
+      background: var(--color-primary-hover);
+    }
+  }
+
+  &__menu {
+    display: grid;
+    place-items: center;
+    width: rem(20);
+    height: rem(40);
+    padding: 0;
+    color: var(--color-muted);
+    background: transparent;
+    border: 0;
+
+    @include hover() {
+      color: var(--color-primary);
+    }
+  }
+}
+
+@include mobile() {
+  .header {
+    gap: 8px;
+    padding: 0 16px;
+
+    &__title {
+      font-size: 18px;
+      line-height: 23px;
+    }
+
+    &__actions {
+      gap: 8px;
+    }
+
+    &__add-task {
+      min-height: 40px;
+      padding: 0 12px;
+      font-size: 12px;
+    }
+  }
+}

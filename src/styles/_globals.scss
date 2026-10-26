@@ -1,0 +1,85 @@
+@use "helpers" as *;
+
+html,
+body {
+  min-width: rem(320);
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  color: var(--color-text);
+  background: var(--color-background);
+  font-size: rem(15);
+  font-weight: 500;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+button {
+  margin: 0;
+  color: inherit;
+}
+
+button svg {
+  flex-shrink: 0;
+}
+
+button:focus-visible,
+[tabindex]:focus-visible {
+  outline: 3px solid var(--color-primary-hover);
+  outline-offset: 4px;
+}
+
+h1,
+.h1,
+h2,
+.h2,
+h3,
+.h3,
+h4,
+.h4,
+h5,
+.h5,
+h6,
+.h6 {
+  color: var(--color-text);
+}
+
+a,
+button,
+label,
+input,
+textarea,
+select,
+svg * {
+  transition-duration: var(--transition-duration);
+}
+
+a {
+  color: inherit;
+
+  &[class] {
+    text-decoration: none;
+  }
+}
+
+:focus-visible {
+  box-shadow: 0 0 0 rem(2) var(--color-surface);
+  outline: rem(2) solid var(--color-primary-hover);
+  outline-offset: rem(2);
+  transition-duration: 0s !important;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+

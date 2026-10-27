@@ -21,6 +21,16 @@ button {
   color: inherit;
 }
 
+button {
+  &:enabled {
+    cursor: pointer;
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+}
+
 button svg {
   flex-shrink: 0;
 }

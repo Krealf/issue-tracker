@@ -47,13 +47,37 @@
     </button>
   </form>
 
+  <nav class="dialog-navigation" aria-label="Task views">
+    <button
+      class="dialog-navigation__button"
+      type="button"
+      (click)="setActiveDialog('createTask')"
+      [class.dialog-navigation__button--active]="activeDialog === 'createTask'"
+      [disabled]="activeDialog === 'createTask'"
+    >
+      Create task
+    </button>
+
+    <button
+      class="dialog-navigation__button"
+      type="button"
+      (click)="setActiveDialog('detailsTask')"
+      [class.dialog-navigation__button--active]="activeDialog === 'detailsTask'"
+      [disabled]="activeDialog === 'detailsTask'"
+    >
+      Task details
+    </button>
+  </nav>
+
   <div class="task-dialog__content">
     @switch (activeDialog) {
       @case ('createTask') {
         <app-task-create />
       }
+
+      @case ('detailsTask') {
+        <app-task-details />
+      }
     }
   </div>
 </dialog>
-
-<router-outlet />

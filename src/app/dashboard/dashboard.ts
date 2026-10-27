@@ -1,18 +1,5 @@
 import { Component } from '@angular/core';
-
-interface Subtask {
-  id: number;
-  title: string;
-  completed: boolean;
-}
-
-interface Task {
-  id: number;
-  title: string;
-  description: string;
-  status: "todo" | "doing" | "done";
-  subtasks: Subtask[];
-}
+import { Subtask, Task } from '../../types';
 
 @Component({
   imports: [],

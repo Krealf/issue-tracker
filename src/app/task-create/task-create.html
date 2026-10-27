@@ -28,6 +28,7 @@
         name="description"
         rows="4"
         placeholder="e.g. It's always good to take a break. This 15 minute break will recharge the batteries a little."
+        [(ngModel)]="taskDescription"
       ></textarea>
     </div>
 
@@ -35,54 +36,38 @@
       <legend class="task-create__label">Subtasks</legend>
 
       <div class="task-create__subtask-list">
-        <div class="task-create__subtask">
-          <label class="sr-only" for="task-subtask-1"> Subtask 1 </label>
+        @for (subtask of subtasks; track subtask.id) {
+          <div class="task-create__subtask">
+            <label class="sr-only" for="task-subtask-{{ subtask.id }}"> Subtask {{ subtask.id }} </label>
 
-          <input
-            class="task-create__control"
-            id="task-subtask-1"
-            name="subtask-1"
-            type="text"
-            placeholder="e.g. Make coffee"
-          />
+            <input
+              class="task-create__control"
+              id="task-subtask-{{ subtask.id }}"
+              name="subtask-{{ subtask.id }}"
+              type="text"
+              placeholder="e.g. Make coffee"
+              [(ngModel)]="subtask.title"
+            />
 
-          <button class="task-create__remove" type="button" aria-label="Remove subtask 1">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path
-                d="M3 3L13 13M13 3L3 13"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-            </svg>
-          </button>
-        </div>
-
-        <div class="task-create__subtask">
-          <label class="sr-only" for="task-subtask-2"> Subtask 2 </label>
-
-          <input
-            class="task-create__control"
-            id="task-subtask-2"
-            name="subtask-2"
-            type="text"
-            placeholder="e.g. Drink coffee & smile"
-          />
-
-          <button class="task-create__remove" type="button" aria-label="Remove subtask 2">
-            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-              <path
-                d="M3 3L13 13M13 3L3 13"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-            </svg>
-          </button>
-        </div>
+            <button
+              class="task-create__remove"
+              type="button"
+              aria-label="Remove subtask {{ subtask.id }}"
+              (click)="removeSubtask(subtask.id)"
+              [disabled]="subtasks.length === 1"
+            >
+              <svg width="15" height="15" fill="none" aria-hidden="true">
+                <g fill="currentColor" fill-rule="evenodd">
+                  <path d="m12.728 0 2.122 2.122L2.122 14.85 0 12.728z" />
+                  <path d="M0 2.122 2.122 0 14.85 12.728l-2.122 2.122z" />
+                </g>
+              </svg>
+            </button>
+          </div>
+        }
       </div>
 
-      <button class="task-create__button task-create__button--secondary" type="button">
+      <button class="task-create__button task-create__button--secondary" type="button" (click)="addNewSubtask()" [disabled]="subtasks.length === 5">
         + Add New Subtask
       </button>
     </fieldset>
@@ -94,6 +79,7 @@
         class="task-create__control task-create__control--select"
         id="task-status"
         name="status"
+        [(ngModel)]="taskStatus"
       >
         <option value="todo">Todo</option>
         <option value="doing">Doing</option>

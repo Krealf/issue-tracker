@@ -48,13 +48,13 @@ export class TaskCreate {
   }
 
   removeSubtask(id: number) {
-    if (this.subtasks.length <= 1) {
+    if (this.subtasks.length > 1) {
       this.subtasks = this.subtasks.filter((item) => item.id !== id);
     }
   }
 
   addNewSubtask() {
-    if (this.subtasks.length >= 5) {
+    if (this.subtasks.length < 5) {
       this.subtasks.push({
         id: this.availableId,
         title: '',

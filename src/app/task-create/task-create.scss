@@ -121,8 +121,14 @@
     background: transparent;
     border: 0;
 
-    @include hover {
-      color: var(--color-destructive);
+    &:disabled {
+      opacity: var(--button-disabled-opacity);
+    }
+
+    &:not(:disabled) {
+      @include hover {
+        color: var(--color-destructive);
+      }
     }
   }
 

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { Subtask, Task } from '../../types';
+import { Task } from '../../types';
 
 @Component({
   imports: [FormsModule],
@@ -14,7 +14,7 @@ export class TaskCreate {
   protected taskTitle = '';
   protected taskDescription = '';
   protected taskStatus: Task['status'] = 'todo';
-  protected subtasks: Subtask[] = [
+  protected subtasks = [
     {
       id: 1,
       title: '',

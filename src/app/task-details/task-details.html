@@ -1,0 +1,64 @@
+<section class="task-details" aria-labelledby="task-details-title">
+  <header class="task-details__header">
+    <h2 class="task-details__title" id="task-details-title">
+      {{ task.title }}
+    </h2>
+
+    <button
+      class="task-details__menu"
+      type="button"
+      aria-label="Task options"
+      title="Task options are not implemented yet"
+      disabled
+    >
+      <svg width="5" height="20" viewBox="0 0 5 20" aria-hidden="true">
+        <circle cx="2.5" cy="2.5" r="2" fill="currentColor" />
+        <circle cx="2.5" cy="10" r="2" fill="currentColor" />
+        <circle cx="2.5" cy="17.5" r="2" fill="currentColor" />
+      </svg>
+    </button>
+  </header>
+
+  <p class="task-details__description">
+    @if (task.description.trim()) {
+      {{ task.description.trim() }}
+    } @else {
+      No description.
+    }
+  </p>
+
+  <fieldset class="task-details__subtasks">
+    <legend class="task-details__label">
+      Subtasks ({{ calculateDoneSubtasks(task.subtasks) }} of {{ task.subtasks.length }})
+    </legend>
+
+    <div class="task-details__subtask-list">
+      @for (subtask of task.subtasks; track subtask.id) {
+        <label class="task-details__subtask">
+          <input
+            class="task-details__checkbox"
+            type="checkbox"
+            name="details-subtask-{{ subtask.id }}"
+            [(ngModel)]="subtask.completed"
+          />
+
+          <span class="task-details__subtask-title">
+            {{ subtask.title }}
+          </span>
+        </label>
+      } @empty {
+        <p class="task-details__empty">No subtasks.</p>
+      }
+    </div>
+  </fieldset>
+
+  <div class="task-details__status">
+    <label class="task-details__label" for="task-details-status"> Current Status </label>
+
+    <select class="task-details__select" id="task-details-status" name="details-status" [(ngModel)]="task.status">
+      <option value="todo">Todo</option>
+      <option value="doing">Doing</option>
+      <option value="done">Done</option>
+    </select>
+  </div>
+</section>

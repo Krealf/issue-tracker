@@ -84,9 +84,32 @@
     font-weight: 700;
     line-height: rem(30);
 
-    &:hover {
+    @include hover {
       color: var(--color-primary);
     }
+  }
+
+  &__empty {
+    --empty-min-height: #{rem(120)};
+    --empty-border-color: rgb(130 143 163 / 30%);
+
+    @include flex-center;
+
+    min-height: var(--empty-min-height);
+    margin: 0;
+    padding: rem(24) rem(16);
+
+    color: var(--color-muted);
+    background: var(--color-surface);
+
+    border: rem(1) dashed var(--empty-border-color);
+    border-radius: var(--radius-card);
+
+    font-size: rem(13);
+    font-weight: 500;
+    line-height: rem(23);
+    text-align: center;
+    overflow-wrap: anywhere;
   }
 }
 

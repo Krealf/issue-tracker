@@ -1,0 +1,201 @@
+@use '../../styles/helpers' as *;
+
+:host {
+  display: block;
+}
+
+.task-details {
+  --details-gap: #{rem(24)};
+  --details-control-height: #{rem(40)};
+  --details-control-radius: #{rem(4)};
+  --details-control-border: rgb(130 143 163 / 25%);
+  --details-subtask-hover: rgb(99 95 199 / 15%);
+  --details-disabled-opacity: 0.45;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--details-gap);
+
+  &__header {
+    display: flex;
+    align-items: center;
+    gap: rem(16);
+  }
+
+  &__title {
+    flex: 1;
+    min-width: 0;
+    margin: 0;
+
+    color: var(--color-text);
+
+    font-size: rem(18);
+    font-weight: 700;
+    line-height: rem(23);
+
+    overflow-wrap: anywhere;
+  }
+
+  &__menu {
+    display: grid;
+    flex-shrink: 0;
+    place-items: center;
+
+    width: rem(24);
+    min-height: var(--details-control-height);
+    padding: 0;
+
+    color: var(--color-muted);
+    background: transparent;
+    border: 0;
+    border-radius: var(--details-control-radius);
+
+    &:disabled {
+      cursor: not-allowed;
+      opacity: var(--details-disabled-opacity);
+    }
+
+    &:not(:disabled) {
+      @include hover {
+        color: var(--color-primary);
+        background: var(--color-background);
+      }
+    }
+  }
+
+  &__description {
+    margin: 0;
+
+    color: var(--color-muted);
+
+    font-size: rem(13);
+    font-weight: 500;
+    line-height: rem(23);
+
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+
+  &__label {
+    display: block;
+    padding: 0;
+
+    color: var(--color-muted);
+
+    font-size: rem(12);
+    font-weight: 700;
+    line-height: rem(15);
+  }
+
+  &__subtasks {
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+
+    > legend {
+      margin-bottom: rem(16);
+    }
+  }
+
+  &__subtask-list {
+    display: flex;
+    flex-direction: column;
+    gap: rem(8);
+  }
+
+  &__subtask {
+    display: flex;
+    align-items: center;
+    gap: rem(16);
+
+    min-height: var(--details-control-height);
+    padding: rem(12);
+
+    background: var(--color-background);
+    border-radius: var(--details-control-radius);
+
+    cursor: pointer;
+    transition: background-color var(--transition-duration);
+
+    @include hover {
+      background: var(--details-subtask-hover);
+    }
+  }
+
+  &__checkbox {
+    @include square(rem(16));
+
+    flex-shrink: 0;
+    margin: 0;
+
+    accent-color: var(--color-primary);
+    cursor: pointer;
+
+    &:focus-visible {
+      outline: rem(2) solid var(--color-primary);
+      outline-offset: rem(3);
+    }
+
+    &:checked + .task-details__subtask-title {
+      color: var(--color-muted);
+      text-decoration: line-through;
+    }
+  }
+
+  &__subtask-title {
+    min-width: 0;
+
+    color: var(--color-text);
+
+    font-size: rem(12);
+    font-weight: 700;
+    line-height: rem(18);
+
+    overflow-wrap: anywhere;
+  }
+
+  &__status {
+    display: flex;
+    flex-direction: column;
+    gap: rem(8);
+  }
+
+  &__select {
+    width: 100%;
+    min-width: 0;
+    min-height: var(--details-control-height);
+    padding: rem(8) rem(16);
+
+    color: var(--color-text);
+    background: var(--color-surface);
+
+    border: rem(1) solid var(--details-control-border);
+    border-radius: var(--details-control-radius);
+
+    font: inherit;
+    font-size: rem(13);
+    line-height: rem(23);
+
+    cursor: pointer;
+
+    &:focus-visible {
+      border-color: var(--color-primary);
+      outline: rem(2) solid var(--color-primary);
+      outline-offset: rem(1);
+    }
+  }
+
+  &__empty {
+    margin: 0;
+    padding: rem(16);
+
+    color: var(--color-muted);
+    background: var(--color-background);
+    border-radius: var(--details-control-radius);
+
+    font-size: rem(13);
+    line-height: rem(23);
+    text-align: center;
+  }
+}

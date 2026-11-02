@@ -8,4 +8,76 @@
   </main>
 </div>
 
-<router-outlet />
+<!-- Временные кнопки для проверки. Позже уберём. -->
+<div class="dialog-controls">
+  <button type="button" (click)="setActiveDialog('createTask'); taskDialog.showModal()">
+    Open task creation
+  </button>
+
+  <button type="button" (click)="setActiveDialog('detailsTask'); taskDialog.showModal()">
+    Open task details
+  </button>
+</div>
+
+<dialog
+  class="task-dialog"
+  #taskDialog
+  aria-label="Task"
+>
+  <form class="task-dialog__close-form" method="dialog">
+    <button
+      class="task-dialog__close"
+      type="submit"
+      aria-label="Close dialog"
+    >
+      <svg
+        width="16"
+        height="16"
+        viewBox="0 0 16 16"
+        fill="none"
+        aria-hidden="true"
+      >
+        <path
+          d="M3 3L13 13M13 3L3 13"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
+      </svg>
+    </button>
+  </form>
+
+  <nav class="dialog-navigation" aria-label="Task views">
+    <button
+      class="dialog-navigation__button"
+      type="button"
+      (click)="setActiveDialog('createTask')"
+      [class.dialog-navigation__button--active]="activeDialog === 'createTask'"
+      [disabled]="activeDialog === 'createTask'"
+    >
+      Create task
+    </button>
+
+    <button
+      class="dialog-navigation__button"
+      type="button"
+      (click)="setActiveDialog('detailsTask')"
+      [class.dialog-navigation__button--active]="activeDialog === 'detailsTask'"
+      [disabled]="activeDialog === 'detailsTask'"
+    >
+      Task details
+    </button>
+  </nav>
+
+  <div class="task-dialog__content">
+    @switch (activeDialog) {
+      @case ('createTask') {
+        <app-task-create />
+      }
+
+      @case ('detailsTask') {
+        <app-task-details />
+      }
+    }
+  </div>
+</dialog>

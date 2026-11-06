@@ -29,17 +29,18 @@
 
   <fieldset class="task-details__subtasks">
     <legend class="task-details__label">
-      Subtasks ({{ calculateDoneSubtasks(task.subtasks) }} of {{ task.subtasks.length }})
+      Subtasks ({{ totalCompletedSubtasks() }} of {{ totalSubtasks() }})
     </legend>
 
     <div class="task-details__subtask-list">
-      @for (subtask of task.subtasks; track subtask.id) {
+      @for (subtask of subtasks(); track subtask.id) {
         <label class="task-details__subtask">
           <input
             class="task-details__checkbox"
             type="checkbox"
             name="details-subtask-{{ subtask.id }}"
-            [(ngModel)]="subtask.completed"
+            [checked]="subtask.completed"
+            (change)="editSubtaskStatus(subtask.id)"
           />
 
           <span class="task-details__subtask-title">

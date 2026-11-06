@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { Subtask, Task } from '../../types';
 
 @Component({
@@ -8,7 +8,7 @@ import { Subtask, Task } from '../../types';
   templateUrl: './dashboard.html',
 })
 export class Dashboard {
-  protected tasks: Task[] = [
+  protected readonly tasks = signal<Task[]>([
     {
       id: 1,
       title: 'Build UI for onboarding flow',
@@ -196,13 +196,13 @@ export class Dashboard {
         },
       ],
     },
-  ];
+  ]);
 
   calculateDoneSubtasks(subtasks: Subtask[]): number {
     return subtasks.reduce((acc, current) => (current.completed ? acc + 1 : acc), 0);
   }
 
   getTasksByStatus(status: Task['status']): Task[] {
-    return this.tasks.filter((task) => task.status === status)
+    return this.tasks().filter((task) => task.status === status);
   }
 }

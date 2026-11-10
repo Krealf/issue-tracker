@@ -1,0 +1,45 @@
+<article class="task-card">
+  <div class="task-card__content">
+    <h3 class="task-card__title">
+      <button class="task-card__open" type="button" (click)="openCard()">
+        {{ task().title }}
+      </button>
+    </h3>
+
+    <p class="task-card__subtasks">
+      {{ completedSubtasks() }} of {{ task().subtasks.length }} subtasks
+    </p>
+  </div>
+
+  <details class="task-card__actions">
+    <summary class="task-card__menu-toggle" aria-label="Task actions">
+      <svg width="5" height="20" viewBox="0 0 5 20" aria-hidden="true">
+        <circle cx="2.5" cy="2.5" r="2" fill="currentColor" />
+        <circle cx="2.5" cy="10" r="2" fill="currentColor" />
+        <circle cx="2.5" cy="17.5" r="2" fill="currentColor" />
+      </svg>
+    </summary>
+
+    <div class="task-card__menu">
+      <p class="task-card__menu-label">Move to</p>
+
+      <button class="task-card__status" type="button" [disabled]="task().status === 'todo'" (click)="sendNewStatus('todo')">
+        <span class="task-card__status-dot task-card__status-dot--todo" aria-hidden="true"></span>
+
+        Todo
+      </button>
+
+      <button class="task-card__status" type="button" [disabled]="task().status === 'doing'" (click)="sendNewStatus('doing')">
+        <span class="task-card__status-dot task-card__status-dot--doing" aria-hidden="true"></span>
+
+        Doing
+      </button>
+
+      <button class="task-card__status" type="button" [disabled]="task().status === 'done'" (click)="sendNewStatus('done')">
+        <span class="task-card__status-dot task-card__status-dot--done" aria-hidden="true"></span>
+
+        Done
+      </button>
+    </div>
+  </details>
+</article>

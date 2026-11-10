@@ -112,25 +112,3 @@
     overflow-wrap: anywhere;
   }
 }
-
-.task-card {
-  padding: rem(22) rem(14);
-  background: var(--color-surface);
-  border-radius: var(--radius-card);
-  box-shadow: var(--shadow-card);
-
-  &__title {
-    overflow-wrap: break-word;
-    font-size: rem(15);
-    font-weight: 700;
-    line-height: rem(19);
-  }
-
-  &__subtasks {
-    margin-top: rem(6);
-    color: var(--color-muted);
-    font-size: rem(12);
-    font-weight: 700;
-    line-height: rem(15);
-  }
-}

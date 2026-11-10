@@ -4,9 +4,10 @@ import { Sidebar } from './sidebar/sidebar';
 import { Dashboard } from './dashboard/dashboard';
 import { TaskCreate } from './task-create/task-create';
 import { TaskDetails } from './task-details/task-details';
+import { ModalDialog } from './modal-dialog/modal-dialog';
 
 @Component({
-  imports: [Header, Sidebar, Dashboard, TaskCreate, TaskDetails],
+  imports: [Header, Sidebar, Dashboard, TaskCreate, TaskDetails, ModalDialog],
   selector: 'app-root',
   styleUrl: './app.scss',
   templateUrl: './app.html',
@@ -14,7 +15,7 @@ import { TaskDetails } from './task-details/task-details';
 export class App {
   protected activeDialog = '';
 
-  setActiveDialog(typeDialog: string) {
+  protected setActiveDialog(typeDialog: string) {
     this.activeDialog = typeDialog;
   }
 }

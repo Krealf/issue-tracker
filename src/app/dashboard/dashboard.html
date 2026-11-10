@@ -8,19 +8,13 @@
 
     <div class="board__tasks">
       @for (task of todoTasks; track task.id) {
-        <article class="task-card">
-          <h3 class="task-card__title">
-            {{ task.title }}
-          </h3>
-          <p class="task-card__subtasks">
-            {{ calculateDoneSubtasks(task.subtasks) }}
-            of {{ task.subtasks.length }} subtasks
-          </p>
-        </article>
+        <app-task-card
+          [task]="task"
+          (openRequested)="onOpenTask($event)"
+          (statusChange)="onChangeStatus(task.id, $event)"
+        />
       } @empty {
-        <p class="board__empty">
-          No tasks in this column yet.
-        </p>
+        <p class="board__empty">No tasks in this column yet.</p>
       }
     </div>
   </section>
@@ -34,19 +28,13 @@
 
     <div class="board__tasks">
       @for (task of doingTasks; track task.id) {
-        <article class="task-card">
-          <h3 class="task-card__title">
-            {{ task.title }}
-          </h3>
-          <p class="task-card__subtasks">
-            {{ calculateDoneSubtasks(task.subtasks) }}
-            of {{ task.subtasks.length }} subtasks
-          </p>
-        </article>
+        <app-task-card
+          [task]="task"
+          (openRequested)="onOpenTask($event)"
+          (statusChange)="onChangeStatus(task.id, $event)"
+        />
       } @empty {
-        <p class="board__empty">
-          No tasks in this column yet.
-        </p>
+        <p class="board__empty">No tasks in this column yet.</p>
       }
     </div>
   </section>
@@ -60,19 +48,13 @@
 
     <div class="board__tasks">
       @for (task of doneTasks; track task.id) {
-        <article class="task-card">
-          <h3 class="task-card__title">
-            {{ task.title }}
-          </h3>
-          <p class="task-card__subtasks">
-            {{ calculateDoneSubtasks(task.subtasks) }}
-            of {{ task.subtasks.length }} subtasks
-          </p>
-        </article>
+        <app-task-card
+          [task]="task"
+          (openRequested)="onOpenTask($event)"
+          (statusChange)="onChangeStatus(task.id, $event)"
+        />
       } @empty {
-        <p class="board__empty">
-          No tasks in this column yet.
-        </p>
+        <p class="board__empty">No tasks in this column yet.</p>
       }
     </div>
   </section>

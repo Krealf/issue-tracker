@@ -56,7 +56,12 @@
   <div class="task-details__status">
     <label class="task-details__label" for="task-details-status"> Current Status </label>
 
-    <select class="task-details__select" id="task-details-status" name="details-status" [(ngModel)]="task.status">
+    <select
+      class="task-details__select"
+      id="task-details-status"
+      name="details-status"
+      [(ngModel)]="task.status"
+    >
       <option value="todo">Todo</option>
       <option value="doing">Doing</option>
       <option value="done">Done</option>

@@ -1,8 +1,9 @@
 import { Component, signal } from '@angular/core';
-import { Subtask, Task } from '../../types';
+import { Task } from '../../types';
+import { TaskCard } from '../task-card/task-card';
 
 @Component({
-  imports: [],
+  imports: [TaskCard],
   selector: 'app-dashboard',
   styleUrl: './dashboard.scss',
   templateUrl: './dashboard.html',
@@ -198,11 +199,24 @@ export class Dashboard {
     },
   ]);
 
-  calculateDoneSubtasks(subtasks: Subtask[]): number {
-    return subtasks.reduce((acc, current) => (current.completed ? acc + 1 : acc), 0);
+  protected getTasksByStatus(status: Task['status']): Task[] {
+    return this.tasks().filter((task) => task.status === status);
   }
 
-  getTasksByStatus(status: Task['status']): Task[] {
-    return this.tasks().filter((task) => task.status === status);
+  protected onOpenTask(id: Task['id']): void {
+    console.log('Открыть карточку', id);
+  }
+
+  protected onChangeStatus(id: Task['id'], newStatus: Task['status']): void {
+    this.tasks.update((tasks) =>
+      tasks.map((task) =>
+        task.id === id
+          ? {
+              ...task,
+              status: newStatus,
+            }
+          : task,
+      ),
+    );
   }
 }

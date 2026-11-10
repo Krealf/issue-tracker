@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { Header } from './header/header';
 import { Sidebar } from './sidebar/sidebar';
 import { Dashboard } from './dashboard/dashboard';
@@ -11,8 +11,12 @@ import { ModalDialog } from './modal-dialog/modal-dialog';
   selector: 'app-root',
   styleUrl: './app.scss',
   templateUrl: './app.html',
+  host: {
+    '[attr.data-theme]': 'darkMode() ? "dark" : "light"'
+  }
 })
 export class App {
+  protected darkMode = signal<boolean>(false);
   protected activeDialog = '';
 
   protected setActiveDialog(typeDialog: string) {

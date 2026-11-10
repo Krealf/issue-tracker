@@ -12,6 +12,7 @@
   --color-todo: #49c4e5;
   --color-doing: #8471f2;
   --color-done: #67e2ae;
+  --color-on-primary: #ffffff;
 
   --sidebar-width: #{rem(300)};
   --header-height: #{rem(96)};
@@ -25,4 +26,20 @@
   --shadow-card: 0 #{rem(4)} #{rem(6)} rgb(54 78 126 / 10%);
 
   --transition-duration: 0.2s;
+}
+
+app-root[data-theme='light'] {
+  color-scheme: light;
+}
+
+app-root[data-theme='dark'] {
+  color-scheme: dark;
+
+  --color-text: #ffffff;
+  --color-muted: #a7b1c2;
+  --color-border: #3e3f4e;
+  --color-background: #20212c;
+  --color-surface: #2b2c37;
+
+  --shadow-card: 0 #{rem(4)} #{rem(6)} rgb(0 0 0 / 16%);
 }

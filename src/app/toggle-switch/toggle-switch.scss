@@ -1,0 +1,75 @@
+@use '../../styles/helpers' as *;
+
+:host {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.toggle-switch {
+  --switch-width: #{rem(40)};
+  --switch-height: #{rem(20)};
+  --switch-padding: #{rem(3)};
+  --switch-thumb-size: #{rem(14)};
+  --switch-thumb-offset: #{rem(20)};
+
+  display: inline-flex;
+  align-items: center;
+
+  cursor: pointer;
+
+  &__input {
+    @include visually-hidden;
+
+    &:checked + .toggle-switch__track {
+      .toggle-switch__thumb {
+        translate: var(--switch-thumb-offset) 0;
+      }
+    }
+
+    &:focus-visible + .toggle-switch__track {
+      outline: rem(2) solid var(--color-primary-hover);
+      outline-offset: rem(4);
+    }
+
+    &:disabled + .toggle-switch__track {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+  }
+
+  &__track {
+    display: flex;
+    align-items: center;
+
+    width: var(--switch-width);
+    height: var(--switch-height);
+    padding: var(--switch-padding);
+
+    background: var(--color-primary);
+    border-radius: var(--radius-button);
+
+    transition: background-color var(--transition-duration);
+  }
+
+  &__thumb {
+    @include square(var(--switch-thumb-size));
+
+    background: var(--color-on-primary);
+    border-radius: 50%;
+
+    transition: translate var(--transition-duration);
+  }
+
+  @include hover {
+    .toggle-switch__input:not(:disabled) + .toggle-switch__track {
+      background: var(--color-primary-hover);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .toggle-switch__track,
+  .toggle-switch__thumb {
+    transition: none;
+  }
+}

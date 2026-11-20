@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Task } from '../../types';
+import { TaskService } from '../services/task.service';
+import { TASK_CONFIG } from '../app.config';
 
 @Component({
   imports: [FormsModule],
@@ -9,18 +11,14 @@ import { Task } from '../../types';
   templateUrl: './task-create.html',
 })
 export class TaskCreate {
-  protected availableId: number = 2;
+  private readonly taskService = inject(TaskService);
+
+  private readonly config = inject(TASK_CONFIG)
 
   protected taskTitle = '';
   protected taskDescription = '';
   protected taskStatus: Task['status'] = 'todo';
-  protected subtasks = [
-    {
-      id: 1,
-      title: '',
-      completed: false,
-    },
-  ];
+  protected subtasks: Task['subtasks'] = []
   protected task: Task | null = null;
 
   createTask() {
@@ -37,30 +35,27 @@ export class TaskCreate {
       .filter((item) => !!item.title);
 
     this.task = {
-      id: 40,
+      id: crypto.randomUUID(),
       title: this.taskTitle,
       description: this.taskDescription,
       status: this.taskStatus,
       subtasks: subtasks,
     };
 
-    console.log(this.task);
+    this.taskService.create(this.task);
   }
 
-  removeSubtask(id: number) {
-    if (this.subtasks.length > 1) {
-      this.subtasks = this.subtasks.filter((item) => item.id !== id);
-    }
+  removeSubtask(id: string) {
+    this.subtasks = this.subtasks.filter((item) => item.id !== id);
   }
 
   addNewSubtask() {
-    if (this.subtasks.length < 5) {
+    if (this.subtasks.length < this.config.maxSubtasks) {
       this.subtasks.push({
-        id: this.availableId,
+        id: crypto.randomUUID(),
         title: '',
         completed: false,
       });
-      this.availableId += 1;
     }
   }
 }

@@ -5,15 +5,16 @@ import { Dashboard } from './dashboard/dashboard';
 import { TaskCreate } from './task-create/task-create';
 import { TaskDetails } from './task-details/task-details';
 import { ModalDialog } from './modal-dialog/modal-dialog';
+import { DemoBoard } from './demo-board/demo-board';
 
 @Component({
-  imports: [Header, Sidebar, Dashboard, TaskCreate, TaskDetails, ModalDialog],
+  imports: [Header, Sidebar, Dashboard, TaskCreate, TaskDetails, ModalDialog, DemoBoard],
   selector: 'app-root',
   styleUrl: './app.scss',
   templateUrl: './app.html',
   host: {
-    '[attr.data-theme]': 'darkMode() ? "dark" : "light"'
-  }
+    '[attr.data-theme]': 'darkMode() ? "dark" : "light"',
+  },
 })
 export class App {
   protected darkMode = signal<boolean>(false);

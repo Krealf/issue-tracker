@@ -3,7 +3,7 @@
     @let todoTasks = getTasksByStatus('todo');
     <h2 class="board__column-title" id="todo-title">
       <span class="board__status-dot" aria-hidden="true"></span>
-      TODO ({{ todoTasks.length }})
+      TODO ({{ todoTaskCount() }})
     </h2>
 
     <div class="board__tasks">

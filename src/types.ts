@@ -1,11 +1,17 @@
+export interface TaskConfig {
+  maxTasks: number;
+  minTasks: number;
+  maxSubtasks: number;
+}
+
 export interface Subtask {
-  id: number;
+  id: string;
   title: string;
   completed: boolean;
 }
 
 export interface Task {
-  id: number;
+  id: string;
   title: string;
   description: string;
   status: 'todo' | 'doing' | 'done';

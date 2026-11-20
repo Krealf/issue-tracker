@@ -11,17 +11,17 @@ import { FormsModule } from '@angular/forms';
 export class TaskDetails {
   protected subtasks = signal<Subtask[]>([
     {
-      id: 1,
+      id: crypto.randomUUID(),
       title: 'Build the welcome screen',
       completed: true,
     },
     {
-      id: 2,
+      id: crypto.randomUUID(),
       title: 'Build the account setup screen',
       completed: false,
     },
     {
-      id: 3,
+      id: crypto.randomUUID(),
       title: 'Check the layout on mobile',
       completed: false,
     },
@@ -32,7 +32,7 @@ export class TaskDetails {
     this.subtasks().reduce((acc, currentValue) => (currentValue.completed ? acc + 1 : acc), 0),
   );
 
-  protected editSubtaskStatus(id: number) {
+  protected editSubtaskStatus(id: string) {
     this.subtasks.update((subtasks) =>
       subtasks.map((subtask) => {
         if (subtask.id === id) {
@@ -47,7 +47,7 @@ export class TaskDetails {
   }
 
   protected task: Omit<Task, 'subtasks'> = {
-    id: 1,
+    id: crypto.randomUUID(),
     title: 'Build UI for onboarding flow',
     description:
       'Create the screens that guide new users through their first steps in the application.',
@@ -55,6 +55,10 @@ export class TaskDetails {
   };
 
   constructor() {
-    effect(() => console.log(`Task progress: ${this.totalCompletedSubtasks()} / ${this.totalSubtasks()} completed`));
+    effect(() =>
+      console.log(
+        `Task progress: ${this.totalCompletedSubtasks()} / ${this.totalSubtasks()} completed`,
+      ),
+    );
   }
 }

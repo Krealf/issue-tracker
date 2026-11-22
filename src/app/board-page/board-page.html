@@ -3,7 +3,7 @@
     <app-header [boardName]="board.name" />
 
     <div class="board-page__content">
-      <app-dashboard [boardId]="boardId()" />
+      <app-dashboard [columns]="columns()"/>
     </div>
   } @else {
     <section class="board-page__not-found" aria-labelledby="board-not-found-title">

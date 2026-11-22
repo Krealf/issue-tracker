@@ -12,10 +12,14 @@ import { RouterOutlet } from '@angular/router';
 })
 export class BoardPage {
   private readonly boardService = inject(BoardService);
+  private readonly boards = this.boardService.boards();
 
   readonly boardId = input.required<string>();
 
   protected board = computed(() => {
-    return this.boardService.boards().find((board) => board.id === this.boardId());
+    return this.boards.find((board) => board.id === this.boardId());
+  });
+  protected columns = computed(() => {
+    return this.boards.find((board) => board.id === this.boardId())?.columns ?? [];
   });
 }

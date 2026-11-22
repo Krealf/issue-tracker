@@ -12,7 +12,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class Sidebar {
   public darkMode = model(false);
-  private readonly boardService = inject(BoardService);
+  protected readonly boardService = inject(BoardService);
 
   readonly boards = this.boardService.boards;
 }

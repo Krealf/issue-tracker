@@ -1,7 +1,7 @@
 <div class="app-layout">
   <app-sidebar [(darkMode)]="darkMode"/>
 
-  <main class="app-layout__main" aria-label="Platform Launch board">
+  <main class="app-layout__main" [aria-label]="boardService.currentActiveBoardName()">
     <router-outlet></router-outlet>
   </main>
 </div>

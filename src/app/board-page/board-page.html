@@ -1,4 +1,18 @@
-<app-header />
+<div class="board-page">
+  @if (board(); as board) {
+    <app-header [boardName]="board.name" />
 
-<p>board-page works!</p>
-<p>{{ boardId()}}</p>
+    <div class="board-page__content">
+      <app-dashboard [boardId]="boardId()" />
+    </div>
+  } @else {
+    <section class="board-page__not-found" aria-labelledby="board-not-found-title">
+      <h1 class="board-page__not-found-title" id="board-not-found-title">Board not found</h1>
+      <p class="board-page__not-found-text">
+        This board doesn't exist or was deleted. Pick another one in the sidebar.
+      </p>
+    </section>
+  }
+</div>
+
+<router-outlet />

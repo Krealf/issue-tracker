@@ -13,13 +13,8 @@ export class TaskCard {
     return this.task().subtasks.reduce((acc, current) => (current.completed ? acc + 1 : acc), 0);
   });
   readonly openRequested = output<Task['id']>();
-  readonly statusChange = output<Task['status']>();
 
   protected openCard(): void {
     this.openRequested.emit(this.task().id);
-  }
-
-  protected sendNewStatus(newStatus: Task['status']): void {
-    this.statusChange.emit(newStatus);
   }
 }

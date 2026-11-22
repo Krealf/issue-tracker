@@ -51,7 +51,8 @@ export class TaskDetails {
     title: 'Build UI for onboarding flow',
     description:
       'Create the screens that guide new users through their first steps in the application.',
-    status: 'todo',
+    columnId: 'fdfd',
+    boardId: 'fdfdfd'
   };
 
   constructor() {

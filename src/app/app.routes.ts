@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { BoardPage } from './board-page/board-page';
+import { NotFound } from './not-found/not-found';
 
 export const routes: Routes = [
   {
@@ -25,7 +26,8 @@ export const routes: Routes = [
     //   },
     // ],
   },
-  // {
-  //   path: '**',
-  // },
+  {
+    path: '**',
+    component: NotFound,
+  },
 ];

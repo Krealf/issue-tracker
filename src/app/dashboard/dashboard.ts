@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
-import { Task } from '../../types';
+import { Component, computed, inject, input } from '@angular/core';
+import { Column, Task } from '../../types';
 import { TaskCard } from '../task-card/task-card';
 import { TaskService } from '../services/task.service';
 import { DialogService } from '../services/dialog.service';
+import { BoardService } from '../services/board.service';
 
 @Component({
   imports: [TaskCard],
@@ -11,14 +12,21 @@ import { DialogService } from '../services/dialog.service';
   templateUrl: './dashboard.html',
 })
 export class Dashboard {
+  private readonly boardService = inject(BoardService);
   private readonly taskService = inject(TaskService);
   private readonly dialogService = inject(DialogService);
+  private readonly boards = this.boardService.boards;
 
-  protected readonly tasks = this.taskService.tasks;
-  protected readonly todoTaskCount = this.taskService.todoTaskCount;
+  readonly boardId = input.required<string>();
+  protected board = computed(() => {
+    return this.boards().find((board) => board.id === this.boardId());
+  });
+  protected columns = computed(() => {
+    return this.boards().find((board) => board.id === this.boardId())?.columns ?? [];
+  });
 
-  protected getTasksByStatus(status: Task['status']): Task[] {
-    return this.tasks().filter((task) => task.status === status);
+  protected getColumnTasks(columnId: Column['id']): Task[] {
+    return this.taskService.getColumnTasks(columnId);
   }
 
   protected onOpenTask(id: Task['id']): void {
@@ -26,9 +34,5 @@ export class Dashboard {
       kind: 'detailsTask',
       taskId: id,
     });
-  }
-
-  protected onChangeStatus(id: Task['id'], newStatus: Task['status']): void {
-    this.taskService.changeStatus(id, newStatus);
   }
 }

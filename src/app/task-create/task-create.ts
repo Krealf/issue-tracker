@@ -17,7 +17,6 @@ export class TaskCreate {
 
   protected taskTitle = '';
   protected taskDescription = '';
-  protected taskStatus: Task['status'] = 'todo';
   protected subtasks: Task['subtasks'] = []
   protected task: Task | null = null;
 
@@ -38,8 +37,9 @@ export class TaskCreate {
       id: crypto.randomUUID(),
       title: this.taskTitle,
       description: this.taskDescription,
-      status: this.taskStatus,
       subtasks: subtasks,
+      columnId: 'fdfd',
+      boardId: 'fdfdfd',
     };
 
     this.taskService.create(this.task);

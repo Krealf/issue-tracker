@@ -1,0 +1,46 @@
+@use '../../styles/helpers' as *;
+
+:host {
+  display: block;
+  height: 100%;
+  min-height: 0;
+}
+
+.board-page {
+  display: grid;
+  grid-template-rows: var(--header-height) minmax(0, 1fr);
+  height: 100%;
+  min-height: 0;
+
+  &__content {
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  &__not-found {
+    @include flex-center;
+
+    flex-direction: column;
+    grid-row: 1 / -1;
+    gap: rem(12);
+    padding: rem(24);
+    text-align: center;
+  }
+
+  &__not-found-title {
+    margin: 0;
+    font-size: rem(24);
+    font-weight: 700;
+    line-height: rem(30);
+  }
+
+  &__not-found-text {
+    max-width: rem(400);
+    margin: 0;
+    color: var(--color-muted);
+    font-size: rem(13);
+    font-weight: 500;
+    line-height: rem(23);
+  }
+}

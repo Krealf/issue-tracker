@@ -23,21 +23,18 @@
     <div class="task-card__menu">
       <p class="task-card__menu-label">Move to</p>
 
-      <button class="task-card__status" type="button" [disabled]="task().status === 'todo'" (click)="sendNewStatus('todo')">
+      <button class="task-card__status" type="button">
         <span class="task-card__status-dot task-card__status-dot--todo" aria-hidden="true"></span>
-
         Todo
       </button>
 
-      <button class="task-card__status" type="button" [disabled]="task().status === 'doing'" (click)="sendNewStatus('doing')">
+      <button class="task-card__status" type="button">
         <span class="task-card__status-dot task-card__status-dot--doing" aria-hidden="true"></span>
-
         Doing
       </button>
 
-      <button class="task-card__status" type="button" [disabled]="task().status === 'done'" (click)="sendNewStatus('done')">
+      <button class="task-card__status" type="button">
         <span class="task-card__status-dot task-card__status-dot--done" aria-hidden="true"></span>
-
         Done
       </button>
     </div>

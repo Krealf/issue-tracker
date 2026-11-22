@@ -5,10 +5,9 @@ import { Dashboard } from './dashboard/dashboard';
 import { TaskCreate } from './task-create/task-create';
 import { TaskDetails } from './task-details/task-details';
 import { ModalDialog } from './modal-dialog/modal-dialog';
-import { DemoBoard } from './demo-board/demo-board';
 
 @Component({
-  imports: [Header, Sidebar, Dashboard, TaskCreate, TaskDetails, ModalDialog, DemoBoard],
+  imports: [Header, Sidebar, Dashboard, TaskCreate, TaskDetails, ModalDialog],
   selector: 'app-root',
   styleUrl: './app.scss',
   templateUrl: './app.html',

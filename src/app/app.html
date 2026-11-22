@@ -1,10 +1,8 @@
 <div class="app-layout">
   <app-sidebar [(darkMode)]="darkMode"/>
 
-  <app-header />
-
   <main class="app-layout__main" aria-label="Platform Launch board">
-    <app-dashboard />
+    <router-outlet></router-outlet>
   </main>
 </div>
 

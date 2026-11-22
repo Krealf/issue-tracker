@@ -18,3 +18,14 @@ export interface Task {
   subtasks: Subtask[];
 }
 
+export interface Column {
+  id: string;
+  name: string;
+}
+
+export interface Board {
+  id: string;
+  name: string;
+  columns: Column[];
+}
+

@@ -3,7 +3,7 @@ import {
   InjectionToken,
   provideBrowserGlobalErrorListeners,
 } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
 import { routes } from './app.routes';
 import { TaskConfig } from '../types';
 
@@ -12,7 +12,7 @@ export const TASK_CONFIG = new InjectionToken<TaskConfig>('TASK_CONFIG');
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideRouter(routes),
+    provideRouter(routes, withComponentInputBinding()),
     {
       provide: TASK_CONFIG,
       useValue: {

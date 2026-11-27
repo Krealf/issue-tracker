@@ -5,11 +5,12 @@ import { SEED_BOARDS } from '../data/seed';
 @Service()
 export class BoardService {
   private readonly _boards = signal<Board[]>(SEED_BOARDS);
-  readonly boards = this._boards.asReadonly();
+  public readonly boards = this._boards.asReadonly();
 
-  currentActiveBoardName = signal<Board['name']>('Platform Launch');
+  private readonly _activeBoardName = signal<Board['name']>('Platform Launch');
+  public readonly activeBoardName = this._activeBoardName.asReadonly();
 
-  setCurrentBoardName(boardName: Board['name']) {
-    this.currentActiveBoardName.set(boardName);
+  setActiveBoardName(boardName: Board['name']) {
+    this._activeBoardName.set(boardName);
   }
 }

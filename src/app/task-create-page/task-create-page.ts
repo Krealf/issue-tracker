@@ -1,25 +1,24 @@
 import { Component, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { Task } from '../../types';
 import { TaskService } from '../services/task.service';
 import { TASK_CONFIG } from '../app.config';
+import { Task } from '../../types';
+import { FormsModule } from '@angular/forms';
 import { RoutePanel } from '../route-panel/route-panel';
 
 @Component({
   imports: [FormsModule, RoutePanel],
-  selector: 'app-task-create',
-  styleUrl: './task-create.scss',
-  templateUrl: './task-create.html',
+  selector: 'app-task-create-page',
+  styleUrl: './task-create-page.scss',
+  templateUrl: './task-create-page.html',
 })
-export class TaskCreate {
+export class TaskCreatePage {
   private readonly taskService = inject(TaskService);
 
-  private readonly config = inject(TASK_CONFIG);
+  private readonly taskConfig = inject(TASK_CONFIG);
 
   protected taskTitle = '';
   protected taskDescription = '';
   protected subtasks: Task['subtasks'] = [];
-  protected task: Task | null = null;
 
   createTask() {
     this.taskTitle = this.taskTitle.trim();
@@ -34,7 +33,7 @@ export class TaskCreate {
       }))
       .filter((item) => !!item.title);
 
-    this.task = {
+    const task = {
       id: crypto.randomUUID(),
       title: this.taskTitle,
       description: this.taskDescription,
@@ -43,16 +42,16 @@ export class TaskCreate {
       boardId: 'launch',
     };
 
-    this.taskService.create(this.task);
-    console.log(this.task, this.taskService.tasks());
+    this.taskService.create(task);
+    console.log(task, this.taskService.tasks());
   }
 
   removeSubtask(id: string) {
     this.subtasks = this.subtasks.filter((item) => item.id !== id);
   }
 
-  addNewSubtask() {
-    if (this.subtasks.length < this.config.maxSubtasks) {
+  addSubtask() {
+    if (this.subtasks.length < this.taskConfig.maxSubtasks) {
       this.subtasks.push({
         id: crypto.randomUUID(),
         title: '',

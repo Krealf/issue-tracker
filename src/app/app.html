@@ -1,7 +1,7 @@
 <div class="app-layout">
-  <app-sidebar [(darkMode)]="darkMode" />
+  <app-sidebar [(isDarkMode)]="isDarkMode" />
 
-  <main class="app-layout__main" [attr.aria-label]="boardService.currentActiveBoardName()">
+  <main class="app-layout__main" [attr.aria-label]="boardService.activeBoardName()">
     <router-outlet></router-outlet>
   </main>
 </div>

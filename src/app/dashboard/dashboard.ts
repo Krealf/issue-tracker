@@ -12,22 +12,18 @@ import { toSignal } from '@angular/core/rxjs-interop';
   templateUrl: './dashboard.html',
 })
 export class Dashboard {
-  private readonly taskService = inject(TaskService);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
+  private readonly taskService = inject(TaskService);
   private readonly queryParams = toSignal(this.route.queryParams);
+  private readonly selectedColumnId = computed(() => this.queryParams()?.['column']);
+  public readonly columns = input<Column[]>([]);
 
-  currentColumnId = computed(() => {
-    return this.queryParams()?.['column'];
-  });
-
-  readonly columns = input<Column[]>([]);
-
-  getColumnTasks(columnId: Column['id']): Task[] {
+  getVisibleColumnTasks(columnId: Column['id']): Task[] {
     const tasks = this.taskService.getColumnTasks(columnId);
 
-    if (this.currentColumnId()) {
-      return tasks.filter((task) => task.columnId === this.currentColumnId());
+    if (this.selectedColumnId()) {
+      return tasks.filter((task) => task.columnId === this.selectedColumnId());
     }
 
     return tasks;

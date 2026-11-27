@@ -2,7 +2,7 @@
   <section class="task-details" aria-labelledby="task-details-title">
     <header class="task-details__header">
       <h2 class="task-details__title" id="task-details-title">
-        {{ task.title }}
+        {{ task()?.title }}
       </h2>
 
       <button
@@ -21,8 +21,8 @@
     </header>
 
     <p class="task-details__description">
-      @if (task.description.trim()) {
-        {{ task.description.trim() }}
+      @if (task()?.description?.trim()) {
+        {{ task()?.description?.trim() }}
       } @else {
         No description.
       }
@@ -30,7 +30,7 @@
 
     <fieldset class="task-details__subtasks">
       <legend class="task-details__label">
-        Subtasks ({{ totalCompletedSubtasks() }} of {{ totalSubtasks() }})
+        Subtasks ({{ completedSubtasksCount() }} of {{ subtasksCount() }})
       </legend>
 
       <div class="task-details__subtask-list">
@@ -41,7 +41,7 @@
               type="checkbox"
               name="details-subtask-{{ subtask.id }}"
               [checked]="subtask.completed"
-              (change)="editSubtaskStatus(subtask.id)"
+              (change)="toggleSubtask(subtask.id)"
             />
 
             <span class="task-details__subtask-title">

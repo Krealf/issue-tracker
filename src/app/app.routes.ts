@@ -1,8 +1,9 @@
 import { Routes } from '@angular/router';
 import { BoardPage } from './board-page/board-page';
-import { boardGuard } from './guards/board-guard';
-import { TaskCreate } from './task-create/task-create';
-import { TaskDetails } from './task-details/task-details';
+import { boardGuard } from './guards/board/board-guard';
+import { TaskDetailsPage } from './task-details-page/task-details-page';
+import { TaskCreatePage } from './task-create-page/task-create-page';
+import { taskGuard } from './guards/task/task-guard';
 
 export const routes: Routes = [
   {
@@ -20,11 +21,12 @@ export const routes: Routes = [
     children: [
       {
         path: 'tasks/new',
-        component: TaskCreate,
+        component: TaskCreatePage,
       },
       {
         path: 'tasks/:taskId',
-        component: TaskDetails,
+        component: TaskDetailsPage,
+        canActivate: [taskGuard],
       },
     //   {
     //     path: 'edit',
@@ -33,6 +35,6 @@ export const routes: Routes = [
   },
   {
     path: '**',
-    loadComponent: () => import('./not-found/not-found').then((m) => m.NotFound),
+    loadComponent: () => import('./not-found-page/not-found-page').then((m) => m.NotFoundPage),
   },
 ];

@@ -14,7 +14,7 @@ export class TaskCard {
   });
   readonly openRequested = output<Task['id']>();
 
-  protected openCard(): void {
+  protected requestOpen(): void {
     this.openRequested.emit(this.task().id);
   }
 }

@@ -1,6 +1,6 @@
 <div class="board" tabindex="0" aria-label="Board columns">
   @for (column of columns(); track column.id) {
-    @let columnTasks = getColumnTasks(column.id);
+    @let columnTasks = getVisibleColumnTasks(column.id);
 
     <section class="board__column" [attr.aria-labelledby]="'column-title-' + column.id">
       <h2 class="board__column-title" [id]="'column-title-' + column.id">

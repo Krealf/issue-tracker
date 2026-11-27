@@ -46,7 +46,7 @@
   }
 }
 
-.status-filter {
+.column-filter {
   display: inline-flex;
   gap: rem(4);
   padding: rem(4);
@@ -54,7 +54,7 @@
   background: var(--filter-bg, rgba(130, 143, 163, 0.12));
 }
 
-.status-filter__link {
+.column-filter__link {
   padding: rem(6) rem(14);
   border-radius: rem(6);
   font-size: rem(13);
@@ -73,7 +73,7 @@
   }
 }
 
-.status-filter__link--active {
+.column-filter__link--active {
   background: var(--filter-active-bg, #635fc7);
   color: #fff;
 }

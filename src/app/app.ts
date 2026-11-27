@@ -9,11 +9,11 @@ import { BoardService } from './services/board.service';
   styleUrl: './app.scss',
   templateUrl: './app.html',
   host: {
-    '[attr.data-theme]': 'darkMode() ? "dark" : "light"',
+    '[attr.data-theme]': 'isDarkMode() ? "dark" : "light"',
   },
 })
 export class App {
   protected readonly boardService = inject(BoardService);
 
-  protected darkMode = signal<boolean>(false);
+  protected isDarkMode = signal<boolean>(false);
 }

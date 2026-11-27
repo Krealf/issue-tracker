@@ -11,8 +11,7 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   templateUrl: './sidebar.html',
 })
 export class Sidebar {
-  public darkMode = model(false);
   protected readonly boardService = inject(BoardService);
-
-  readonly boards = this.boardService.boards;
+  protected readonly boards = this.boardService.boards;
+  public isDarkMode = model(false);
 }

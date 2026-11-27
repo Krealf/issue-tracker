@@ -3,20 +3,20 @@
     <app-header [boardName]="board.name" />
 
     <div class="board-page__content">
-      <nav class="status-filter" aria-label="Filter tasks by column">
-        <a class="status-filter__link"
+      <nav class="column-filter" aria-label="Filter tasks by column">
+        <a class="column-filter__link"
            [routerLink]="[]"
            [queryParams]="{ column: null }"
            queryParamsHandling="merge"
-           routerLinkActive="status-filter__link--active"
+           routerLinkActive="column-filter__link--active"
            [routerLinkActiveOptions]="{ exact: true }">All</a>
 
         @for (column of columns(); track column.id) {
-          <a class="status-filter__link"
+          <a class="column-filter__link"
              [routerLink]="[]"
              [queryParams]="{ column: column.id }"
              queryParamsHandling="merge"
-             routerLinkActive="status-filter__link--active"
+             routerLinkActive="column-filter__link--active"
              [routerLinkActiveOptions]="{ exact: true }">{{ column.name }}</a>
         }
       </nav>

@@ -3,9 +3,10 @@ import { FormsModule } from '@angular/forms';
 import { Task } from '../../types';
 import { TaskService } from '../services/task.service';
 import { TASK_CONFIG } from '../app.config';
+import { RoutePanel } from '../route-panel/route-panel';
 
 @Component({
-  imports: [FormsModule],
+  imports: [FormsModule, RoutePanel],
   selector: 'app-task-create',
   styleUrl: './task-create.scss',
   templateUrl: './task-create.html',
@@ -13,11 +14,11 @@ import { TASK_CONFIG } from '../app.config';
 export class TaskCreate {
   private readonly taskService = inject(TaskService);
 
-  private readonly config = inject(TASK_CONFIG)
+  private readonly config = inject(TASK_CONFIG);
 
   protected taskTitle = '';
   protected taskDescription = '';
-  protected subtasks: Task['subtasks'] = []
+  protected subtasks: Task['subtasks'] = [];
   protected task: Task | null = null;
 
   createTask() {
@@ -38,11 +39,12 @@ export class TaskCreate {
       title: this.taskTitle,
       description: this.taskDescription,
       subtasks: subtasks,
-      columnId: 'fdfd',
-      boardId: 'fdfdfd',
+      columnId: 'launch-todo',
+      boardId: 'launch',
     };
 
     this.taskService.create(this.task);
+    console.log(this.task, this.taskService.tasks());
   }
 
   removeSubtask(id: string) {

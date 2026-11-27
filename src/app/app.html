@@ -1,31 +1,7 @@
 <div class="app-layout">
-  <app-sidebar [(darkMode)]="darkMode"/>
+  <app-sidebar [(darkMode)]="darkMode" />
 
-  <main class="app-layout__main" [aria-label]="boardService.currentActiveBoardName()">
+  <main class="app-layout__main" [attr.aria-label]="boardService.currentActiveBoardName()">
     <router-outlet></router-outlet>
   </main>
 </div>
-
-<!-- Временные кнопки для проверки. -->
-<div class="dialog-controls">
-  <button type="button" (click)="setActiveDialog('createTask'); modal.open()">
-    Open task creation
-  </button>
-
-  <button type="button" (click)="setActiveDialog('detailsTask'); modal.open()">
-    Open task details
-  </button>
-</div>
-
-<app-modal-dialog #modal>
-  @switch (activeDialog) {
-    @case ('createTask') {
-      <app-task-create />
-    }
-
-    @case ('detailsTask') {
-      <app-task-details />
-    }
-  }
-</app-modal-dialog>
-

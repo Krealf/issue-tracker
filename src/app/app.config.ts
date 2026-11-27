@@ -16,7 +16,7 @@ export const appConfig: ApplicationConfig = {
     {
       provide: TASK_CONFIG,
       useValue: {
-        maxTasks: 10,
+        maxTasks: 50,
         minTasks: 1,
         maxSubtasks: 5,
       },

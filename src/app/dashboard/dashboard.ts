@@ -2,7 +2,7 @@ import { Component, inject, input } from '@angular/core';
 import { Column, Task } from '../../types';
 import { TaskCard } from '../task-card/task-card';
 import { TaskService } from '../services/task.service';
-import { DialogService } from '../services/dialog.service';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   imports: [TaskCard],
@@ -12,17 +12,15 @@ import { DialogService } from '../services/dialog.service';
 })
 export class Dashboard {
   private readonly taskService = inject(TaskService);
-  private readonly dialogService = inject(DialogService);
+  private readonly router = inject(Router);
+  private route = inject(ActivatedRoute);
   readonly columns = input<Column[]>([]);
 
-  protected getColumnTasks(columnId: Column['id']): Task[] {
+  getColumnTasks(columnId: Column['id']): Task[] {
     return this.taskService.getColumnTasks(columnId);
   }
 
-  protected onOpenTask(id: Task['id']): void {
-    this.dialogService.open({
-      kind: 'detailsTask',
-      taskId: id,
-    });
+  onOpenTask(id: Task['id']): void {
+    this.router.navigate(['tasks', id], { relativeTo: this.route });
   }
 }

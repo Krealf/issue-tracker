@@ -1,0 +1,53 @@
+@use '../../styles/helpers' as *;
+
+:host {
+  display: contents;
+}
+
+.route-panel {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  padding: rem(16);
+
+  &__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgb(0 0 0 / 50%);
+  }
+
+  &__content {
+    position: relative;
+    width: min(100%, rem(480));
+    max-height: calc(100dvh - rem(32));
+    padding: rem(32);
+    overflow-y: auto;
+    color: var(--color-text);
+    background: var(--color-surface);
+    border-radius: var(--radius-card);
+  }
+
+  &__close {
+    position: absolute;
+    top: rem(16);
+    right: rem(16);
+    display: grid;
+    place-items: center;
+    width: rem(24);
+    height: rem(24);
+    color: var(--color-muted);
+    cursor: pointer;
+
+    @include hover {
+      color: var(--color-primary);
+    }
+  }
+}
+
+@include mobile() {
+  .route-panel__content {
+    padding: rem(24);
+  }
+}

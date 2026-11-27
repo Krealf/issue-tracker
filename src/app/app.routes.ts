@@ -1,12 +1,14 @@
 import { Routes } from '@angular/router';
 import { BoardPage } from './board-page/board-page';
-import { NotFound } from './not-found/not-found';
+import { boardGuard } from './guards/board-guard';
+import { TaskCreate } from './task-create/task-create';
+import { TaskDetails } from './task-details/task-details';
 
 export const routes: Routes = [
   {
     path: '',
     pathMatch: 'full',
-    redirectTo: 'boards/launch'
+    redirectTo: 'boards/launch',
   },
   // {
   //   path: 'boards/new',
@@ -14,20 +16,23 @@ export const routes: Routes = [
   {
     path: 'boards/:boardId',
     component: BoardPage,
-    // children: [
-    //   {
-    //     path: 'tasks/new',
-    //   },
-    //   {
-    //     path: 'tasks/:taskId',
-    //   },
+    canActivate: [boardGuard],
+    children: [
+      {
+        path: 'tasks/new',
+        component: TaskCreate,
+      },
+      {
+        path: 'tasks/:taskId',
+        component: TaskDetails,
+      },
     //   {
     //     path: 'edit',
     //   },
-    // ],
+    ],
   },
   {
     path: '**',
-    component: NotFound,
+    loadComponent: () => import('./not-found/not-found').then((m) => m.NotFound),
   },
 ];

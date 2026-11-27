@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ModalDialog } from './modal-dialog';
+import { RoutePanel } from './route-panel';
 
-describe('ModalDialog', () => {
-  let component: ModalDialog;
-  let fixture: ComponentFixture<ModalDialog>;
+describe('RoutePanel', () => {
+  let component: RoutePanel;
+  let fixture: ComponentFixture<RoutePanel>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ModalDialog],
+      imports: [RoutePanel],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ModalDialog);
+    fixture = TestBed.createComponent(RoutePanel);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

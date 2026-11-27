@@ -1,9 +1,10 @@
 import { Component, computed, effect, signal } from '@angular/core';
 import { Subtask, Task } from '../../types';
 import { FormsModule } from '@angular/forms';
+import { RoutePanel } from '../route-panel/route-panel';
 
 @Component({
-  imports: [FormsModule],
+  imports: [FormsModule, RoutePanel],
   selector: 'app-task-details',
   styleUrl: './task-details.scss',
   templateUrl: './task-details.html',
@@ -52,7 +53,7 @@ export class TaskDetails {
     description:
       'Create the screens that guide new users through their first steps in the application.',
     columnId: 'fdfd',
-    boardId: 'fdfdfd'
+    boardId: 'fdfdfd',
   };
 
   constructor() {

@@ -3,7 +3,25 @@
     <app-header [boardName]="board.name" />
 
     <div class="board-page__content">
-      <app-dashboard [columns]="columns()"/>
+      <nav class="status-filter" aria-label="Filter tasks by column">
+        <a class="status-filter__link"
+           [routerLink]="[]"
+           [queryParams]="{ column: null }"
+           queryParamsHandling="merge"
+           routerLinkActive="status-filter__link--active"
+           [routerLinkActiveOptions]="{ exact: true }">All</a>
+
+        @for (column of columns(); track column.id) {
+          <a class="status-filter__link"
+             [routerLink]="[]"
+             [queryParams]="{ column: column.id }"
+             queryParamsHandling="merge"
+             routerLinkActive="status-filter__link--active"
+             [routerLinkActiveOptions]="{ exact: true }">{{ column.name }}</a>
+        }
+      </nav>
+
+      <app-dashboard [columns]="columns()" />
     </div>
   } @else {
     <section class="board-page__not-found" aria-labelledby="board-not-found-title">

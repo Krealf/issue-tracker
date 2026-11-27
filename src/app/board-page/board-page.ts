@@ -2,10 +2,10 @@ import { Component, computed, inject, input } from '@angular/core';
 import { Header } from '../header/header';
 import { BoardService } from '../services/board.service';
 import { Dashboard } from '../dashboard/dashboard';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
 
 @Component({
-  imports: [Header, Dashboard, RouterOutlet],
+  imports: [Header, Dashboard, RouterOutlet, RouterLink, RouterLinkActive],
   selector: 'app-board-page',
   styleUrl: './board-page.scss',
   templateUrl: './board-page.html',

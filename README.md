@@ -11,6 +11,7 @@ https://www.frontendmentor.io/challenges/kanban-task-management-web-app-wgQLt-Hl
 ## Технологии
 
 - Angular (standalone-компоненты, сигналы, Router)
+- Angular CDK (`@angular/cdk/dialog`) для модальных окон
 - TypeScript
 - HTML
 - SCSS
@@ -21,7 +22,7 @@ https://www.frontendmentor.io/challenges/kanban-task-management-web-app-wgQLt-Hl
 
 Домашнее задание №7: маршрутизация (Angular Router).
 
-Реализовано: страницы доски по URL, дочерние маршруты для создания и просмотра задачи, фильтр колонок через query-параметр, guard для досок, страница 404 с ленивой загрузкой.
+Реализовано: страницы доски по URL, дочерние маршруты для создания и просмотра задачи (модальные окна поверх доски), фильтр колонок через query-параметр, guards для досок и задач, страница 404 с ленивой загрузкой.
 
 ## Запуск проекта
 
@@ -53,15 +54,21 @@ npm start
 | URL | Что открывается | Примечание |
 | --- | --- | --- |
 | `/` | редирект на `/boards/launch` | `pathMatch: 'full'` |
-| `/boards/:boardId` | `BoardPage` | защищён `boardGuard`, динамический параметр `boardId` |
-| `/boards/:boardId/tasks/new` | `TaskCreate` | дочерний маршрут, отображается поверх доски |
-| `/boards/:boardId/tasks/:taskId` | `TaskDetails` | дочерний маршрут, параметр `taskId` (чтение в работе) |
-| `/boards/new` | создание доски | в работе, пока ведёт на 404 |
-| любой другой URL | `NotFound` | `**`, ленивая загрузка через `loadComponent` |
+| `/boards/:boardId` | `BoardPage` | защищён `boardGuard`, параметр `boardId` приходит в компонент через `input` |
+| `/boards/:boardId/tasks/new` | `TaskCreatePage` | дочерний маршрут, открывает диалог создания задачи |
+| `/boards/:boardId/tasks/:taskId` | `TaskDetailsPage` | дочерний маршрут, защищён `taskGuard`, параметр `taskId` передаётся в диалог |
+| `/boards/new` | создание доски | не реализовано, пока ведёт на 404 |
+| любой другой URL | `NotFoundPage` | `**`, ленивая загрузка через `loadComponent` |
 
-### Вложенные маршруты
+### Вложенные маршруты и модальные окна
 
-`BoardPage` — общая оболочка доски со своим `<router-outlet />`. Дочерние маршруты (`tasks/new`, `tasks/:taskId`) рендерятся в этот outlet и оборачиваются в `RoutePanel` — общую оверлей-панель с кнопкой закрытия (`routerLink` на родительский маршрут).
+`BoardPage` — общая оболочка доски со своим `<router-outlet />`. Дочерние маршруты (`tasks/new`, `tasks/:taskId`) создают компоненты-адаптеры `TaskCreatePage` и `TaskDetailsPage` с пустым шаблоном. Сам диалог рисует Angular CDK:
+
+1. При создании адаптер открывает окно через `Dialog.open(...)` (для просмотра передаёт `taskId` через `DIALOG_DATA`).
+2. Окно закрывается по Escape, клику по фону или из самого диалога (`DialogRef.close()`). Адаптер подписан на `closed` и переходит на родительский маршрут (доску).
+3. При уходе с маршрута (ссылка, кнопка «назад») адаптер уничтожается и закрывает окно в `onDestroy`.
+
+Escape, фокус внутри окна и затемнение фона обеспечивает CDK. Стили оболочки окна находятся в `src/styles/_dialog.scss` (классы `app-dialog-panel`, `app-dialog-backdrop`).
 
 ### Query-параметр
 
@@ -71,17 +78,18 @@ npm start
 
 Почему не поиск и не статус: в макете нет поля поиска, а статус задачи в проекте задаётся колонкой, поэтому фильтр по колонке — эквивалентный сценарий для требования про query-параметр.
 
-### Guard
+### Guards
 
-`boardGuard` (`CanActivateFn`) проверяет, что доска с `boardId` из URL существует. Если нет, возвращает `UrlTree` с редиректом на `/boards/launch`.
+- `boardGuard` (`CanActivateFn`) проверяет, что доска с `boardId` из URL существует. Если нет, возвращает `UrlTree` с редиректом на `/boards/launch`.
+- `taskGuard` (`CanActivateFn`) проверяет, что задача с `taskId` из URL существует. Если нет, возвращает `UrlTree` на `/404`, где срабатывает маршрут `**`.
 
 ### Ленивая загрузка
 
-Страница `NotFound` подгружается через `loadComponent`. Отдельный чанк виден в DevTools → Network при открытии неизвестного URL.
+Страница `NotFoundPage` подгружается через `loadComponent`. Отдельный чанк виден в DevTools → Network при открытии неизвестного URL.
 
 ## Архитектура
 
-Диаграмма ниже показывает, какие компоненты и сервисы используют друг друга. Пунктиром отмечены маршруты и планируемые связи.
+Диаграмма показывает, какие компоненты и сервисы используют друг друга. Пунктиром отмечены маршруты и открытие диалогов.
 
 ```mermaid
 flowchart TD
@@ -102,16 +110,19 @@ flowchart TD
   TaskCard["TaskCard"]:::ui
   OutletBoard(["router-outlet (BoardPage)"]):::out
 
-  TaskCreate["TaskCreate (route: tasks/new)"]:::page
-  TaskDetails["TaskDetails (route: tasks/:taskId)"]:::page
-  RoutePanel["RoutePanel"]:::ui
-  NotFound["NotFound (lazy, route: **)"]:::page
+  TaskCreatePage["TaskCreatePage (route: tasks/new)"]:::page
+  TaskDetailsPage["TaskDetailsPage (route: tasks/:taskId)"]:::page
+  CdkDialog(["CDK Dialog"]):::out
+  TaskCreateDialog["TaskCreateDialog"]:::ui
+  TaskDetailsDialog["TaskDetailsDialog"]:::ui
+  NotFound["NotFoundPage (lazy, route: **)"]:::page
 
   BoardService[("BoardService")]:::svc
   TaskService[("TaskService")]:::svc
   TaskConfig[("TASK_CONFIG token")]:::svc
   Seed[("SEED_TASKS")]:::svc
-  Guard{{"boardGuard"}}:::svc
+  BoardGuard{{"boardGuard"}}:::svc
+  TaskGuard{{"taskGuard"}}:::svc
 
   App --> Sidebar
   Sidebar --> Toggle
@@ -124,20 +135,24 @@ flowchart TD
   BoardPage --> Dashboard
   Dashboard --> TaskCard
   BoardPage --> OutletBoard
-  OutletBoard -. "tasks/new" .-> TaskCreate
-  OutletBoard -. "tasks/:taskId" .-> TaskDetails
-  TaskCreate --> RoutePanel
-  TaskDetails --> RoutePanel
+  OutletBoard -. "tasks/new" .-> TaskCreatePage
+  OutletBoard -. "tasks/:taskId" .-> TaskDetailsPage
+  TaskCreatePage -. "open()" .-> CdkDialog
+  TaskDetailsPage -. "open(data)" .-> CdkDialog
+  CdkDialog -.-> TaskCreateDialog
+  CdkDialog -.-> TaskDetailsDialog
 
-  Guard --> BoardService
-  Guard -. "canActivate" .-> BoardPage
+  BoardGuard --> BoardService
+  BoardGuard -. "canActivate" .-> BoardPage
+  TaskGuard --> TaskService
+  TaskGuard -. "canActivate" .-> TaskDetailsPage
   App --> BoardService
   Sidebar --> BoardService
   BoardPage --> BoardService
   Dashboard --> TaskService
-  TaskCreate --> TaskService
-  TaskDetails -. "planned" .-> TaskService
-  TaskCreate --> TaskConfig
+  TaskCreateDialog --> TaskService
+  TaskDetailsDialog --> TaskService
+  TaskCreateDialog --> TaskConfig
   TaskService --> TaskConfig
   TaskService --> Seed
 ```
@@ -147,24 +162,29 @@ flowchart TD
 | Слой | Ответственность |
 | --- | --- |
 | Сервисы (`TaskService`, `BoardService`) | Хранят состояние в сигналах и изменяют его через методы |
-| Компоненты маршрутов (`BoardPage`, `TaskCreate`, `TaskDetails`) | Читают параметры URL, берут данные из сервисов |
-| Презентационные компоненты (`Header`, `Dashboard`, `TaskCard`, `RoutePanel`) | Отображают данные и сообщают о действиях |
+| Компоненты маршрутов (`BoardPage`, `TaskCreatePage`, `TaskDetailsPage`) | Читают параметры URL; `BoardPage` рисует доску, остальные только открывают и закрывают диалоги |
+| Диалоги (`TaskCreateDialog`, `TaskDetailsDialog`) | Содержимое модальных окон; данные получают через `DIALOG_DATA`, закрываются через `DialogRef` |
+| Презентационные компоненты (`Header`, `Dashboard`, `TaskCard`) | Отображают данные и сообщают о действиях |
 
 ## Проверка перед сдачей
 
 - [x] Переходы по меню в сайдбаре подсвечивают активную доску.
-- [ ] `/boards/launch`, `/boards/launch/tasks/new`, `/boards/launch/tasks/<id>` открываются прямым URL и после перезагрузки.
-- [ ] Неизвестная доска (`/boards/xxx`) редиректит на `/boards/launch`.
-- [ ] Неизвестный URL (`/qwe`) показывает страницу 404.
-- [ ] Фильтр `?column=...` работает по прямому URL, «All» сбрасывает параметр.
-- [ ] `npm run build` проходит без ошибок.
+- [x] `/boards/launch`, `/boards/launch/tasks/new`, `/boards/launch/tasks/<id>` открываются прямым URL и после перезагрузки.
+- [x] Неизвестная доска (`/boards/xxx`) редиректит на `/boards/launch`.
+- [x] Неизвестная задача (`/boards/launch/tasks/xxx`) ведёт на страницу 404.
+- [x] Неизвестный URL (`/qwe`) показывает страницу 404.
+- [x] Фильтр `?column=...` работает по прямому URL, «All» сбрасывает параметр.
+- [x] Escape, клик по фону и кнопка закрытия возвращают на URL доски.
+- [x] После «Create Task» окно закрывается, а новая задача появляется в колонке.
+- [x] `npm run build` проходит без ошибок.
 
 ## Известные ограничения
 
-- `TaskDetails` пока показывает статичные данные, чтение `taskId` из URL в работе.
 - Маршруты `boards/new` и редактирование доски не реализованы.
-- Открытие задачи сбрасывает фильтр `?column=`.
-- Закрытие панели по Escape и ловушка фокуса пока не реализованы.
+- Создание задачи пока всегда кладёт её в доску `launch`, в колонку `launch-todo`.
+- Выбор статуса в окнах создания и просмотра задачи пока не подключён к данным.
+- Кнопка опций задачи в окне просмотра отключена.
+- Данные хранятся только в памяти и сбрасываются после перезагрузки страницы.
 
 ## Структура проекта
 
@@ -175,16 +195,19 @@ public/
 
 src/
 ├── app/
-│   ├── board-page/         # Страница доски (маршрут)
-│   ├── dashboard/          # Колонки с задачами
-│   ├── guards/             # Функциональные guards
-│   ├── not-found/          # Страница 404 (ленивая)
-│   ├── route-panel/        # Оверлей для дочерних маршрутов
-│   ├── services/           # Сервисы данных
-│   ├── ...                 # Остальные компоненты
-│   ├── app.routes.ts       # Конфигурация маршрутов
-│   └── app.config.ts       # Провайдеры (Router, токены)
-├── types/                  # Типы данных
-├── styles/                 # Общие стили, переменные и SCSS-хелперы
-└── styles.scss             # Глобальная точка подключения стилей
+│   ├── board-page/          # Страница доски (маршрут)
+│   ├── dashboard/           # Колонки с задачами
+│   ├── guards/              # Функциональные guards (board, task)
+│   ├── not-found-page/      # Страница 404 (ленивая)
+│   ├── task-create-page/    # Адаптер маршрута tasks/new
+│   ├── task-create-dialog/  # Диалог создания задачи
+│   ├── task-details-page/   # Адаптер маршрута tasks/:taskId
+│   ├── task-details-dialog/ # Диалог просмотра задачи
+│   ├── services/            # Сервисы данных
+│   ├── ...                  # Остальные компоненты
+│   ├── app.routes.ts        # Конфигурация маршрутов
+│   └── app.config.ts        # Провайдеры (Router, токены)
+├── types/                   # Типы данных
+├── styles/                  # Общие стили, переменные, SCSS-хелперы, стили диалогов
+└── styles.scss              # Глобальная точка подключения стилей
 ```

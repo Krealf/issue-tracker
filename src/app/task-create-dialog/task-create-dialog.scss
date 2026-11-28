@@ -2,18 +2,12 @@
 
 :host {
   display: block;
+  position: relative;
 }
 
 .task-create {
-  --control-height: #{rem(40)};
-  --control-radius: #{rem(4)};
-  --field-gap: #{rem(8)};
-  --section-gap: #{rem(24)};
-  --button-disabled-opacity: 0.45;
-  --color-control-border: rgb(130 143 163 / 25%);
   --color-secondary-background: rgb(99 95 199 / 10%);
   --color-secondary-hover: rgb(99 95 199 / 20%);
-  --color-destructive: #ea5555;
 
   &__title {
     margin: 0 0 var(--section-gap);
@@ -32,7 +26,7 @@
   &__field {
     display: flex;
     flex-direction: column;
-    gap: var(--field-gap);
+    gap: rem(8);
   }
 
   &__label {
@@ -91,7 +85,7 @@
     border: 0;
 
     > legend {
-      margin-bottom: var(--field-gap);
+      margin-bottom: rem(8);
     }
   }
 
@@ -156,7 +150,7 @@
     }
 
     &--primary {
-      color: var(--color-surface);
+      color: var(--color-on-primary);
       background: var(--color-primary);
 
       &:not(:disabled) {
@@ -186,5 +180,23 @@
     font-size: rem(12);
     font-weight: 500;
     line-height: rem(18);
+  }
+
+  &__close {
+    position: absolute;
+    right: rem(2);
+    display: grid;
+    place-items: center;
+    width: rem(24);
+    height: rem(24);
+    padding: 0;
+    color: var(--color-muted);
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+
+    @include hover {
+      color: var(--color-primary);
+    }
   }
 }

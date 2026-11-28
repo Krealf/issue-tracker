@@ -26,6 +26,14 @@
   --shadow-card: 0 #{rem(4)} #{rem(6)} rgb(54 78 126 / 10%);
 
   --transition-duration: 0.2s;
+
+  --control-height: #{rem(40)};
+  --control-radius: #{rem(4)};
+  --color-control-border: rgb(130 143 163 / 25%);
+  --color-destructive: #ea5555;
+  --section-gap: #{rem(24)};
+  --disabled-opacity: 0.45;
+  --dialog-width: #{rem(480)};
 }
 
 app-root[data-theme='light'] {

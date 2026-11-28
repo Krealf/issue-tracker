@@ -1,25 +1,24 @@
 import { Component, inject } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { Task } from '../../types';
 import { TaskService } from '../services/task.service';
 import { TASK_CONFIG } from '../app.config';
+import { Task } from '../../types';
+import { FormsModule } from '@angular/forms';
+import { DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   imports: [FormsModule],
-  selector: 'app-task-create',
-  styleUrl: './task-create.scss',
-  templateUrl: './task-create.html',
+  selector: 'app-task-create-dialog',
+  styleUrl: './task-create-dialog.scss',
+  templateUrl: './task-create-dialog.html',
 })
-export class TaskCreate {
+export class TaskCreateDialog {
   private readonly taskService = inject(TaskService);
-
-  private readonly config = inject(TASK_CONFIG)
+  private readonly taskConfig = inject(TASK_CONFIG);
+  private readonly dialogRef = inject(DialogRef);
 
   protected taskTitle = '';
   protected taskDescription = '';
-  protected taskStatus: Task['status'] = 'todo';
-  protected subtasks: Task['subtasks'] = []
-  protected task: Task | null = null;
+  protected subtasks: Task['subtasks'] = [];
 
   createTask() {
     this.taskTitle = this.taskTitle.trim();
@@ -34,28 +33,34 @@ export class TaskCreate {
       }))
       .filter((item) => !!item.title);
 
-    this.task = {
+    const task = {
       id: crypto.randomUUID(),
       title: this.taskTitle,
       description: this.taskDescription,
-      status: this.taskStatus,
       subtasks: subtasks,
+      columnId: 'launch-todo',
+      boardId: 'launch',
     };
 
-    this.taskService.create(this.task);
+    this.taskService.create(task);
+    this.dialogRef.close();
   }
 
   removeSubtask(id: string) {
     this.subtasks = this.subtasks.filter((item) => item.id !== id);
   }
 
-  addNewSubtask() {
-    if (this.subtasks.length < this.config.maxSubtasks) {
+  addSubtask() {
+    if (this.subtasks.length < this.taskConfig.maxSubtasks) {
       this.subtasks.push({
         id: crypto.randomUUID(),
         title: '',
         completed: false,
       });
     }
+  }
+
+  close(): void {
+    this.dialogRef.close();
   }
 }

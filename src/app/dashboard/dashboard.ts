@@ -1,8 +1,9 @@
-import { Component, inject } from '@angular/core';
-import { Task } from '../../types';
+import { Component, computed, inject, input } from '@angular/core';
+import { Column, Task } from '../../types';
 import { TaskCard } from '../task-card/task-card';
 import { TaskService } from '../services/task.service';
-import { DialogService } from '../services/dialog.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   imports: [TaskCard],
@@ -11,24 +12,26 @@ import { DialogService } from '../services/dialog.service';
   templateUrl: './dashboard.html',
 })
 export class Dashboard {
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
   private readonly taskService = inject(TaskService);
-  private readonly dialogService = inject(DialogService);
+  private readonly queryParams = toSignal(this.route.queryParams);
+  private readonly selectedColumnId = computed(() => this.queryParams()?.['column']);
+  public readonly columns = input<Column[]>([]);
 
-  protected readonly tasks = this.taskService.tasks;
-  protected readonly todoTaskCount = this.taskService.todoTaskCount;
+  getVisibleColumnTasks(columnId: Column['id']): Task[] {
+    const tasks = this.taskService.getColumnTasks(columnId);
 
-  protected getTasksByStatus(status: Task['status']): Task[] {
-    return this.tasks().filter((task) => task.status === status);
+    if (this.selectedColumnId()) {
+      return tasks.filter((task) => task.columnId === this.selectedColumnId());
+    }
+
+    return tasks;
   }
 
-  protected onOpenTask(id: Task['id']): void {
-    this.dialogService.open({
-      kind: 'detailsTask',
-      taskId: id,
+  onOpenTask(id: Task['id']): void {
+    this.router.navigate(['tasks', id], {
+      relativeTo: this.route,
     });
-  }
-
-  protected onChangeStatus(id: Task['id'], newStatus: Task['status']): void {
-    this.taskService.changeStatus(id, newStatus);
   }
 }

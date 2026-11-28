@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { DemoBoard } from './demo-board';
+import { TaskCreateDialog } from './task-create-dialog';
 
-describe('DemoBoard', () => {
-  let component: DemoBoard;
-  let fixture: ComponentFixture<DemoBoard>;
+describe('TaskCreateDialog', () => {
+  let component: TaskCreateDialog;
+  let fixture: ComponentFixture<TaskCreateDialog>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DemoBoard],
+      imports: [TaskCreateDialog],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DemoBoard);
+    fixture = TestBed.createComponent(TaskCreateDialog);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

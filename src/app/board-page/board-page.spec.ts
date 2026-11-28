@@ -1,16 +1,16 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { ModalDialog } from './modal-dialog';
+import { BoardPage } from './board-page';
 
-describe('ModalDialog', () => {
-  let component: ModalDialog;
-  let fixture: ComponentFixture<ModalDialog>;
+describe('BoardPage', () => {
+  let component: BoardPage;
+  let fixture: ComponentFixture<BoardPage>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ModalDialog],
+      imports: [BoardPage],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ModalDialog);
+    fixture = TestBed.createComponent(BoardPage);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

@@ -10,9 +10,8 @@
   --column-heading-height: #{rem(15)};
   --column-heading-gap: #{rem(20)};
 
-  display: grid;
-  grid-template-columns: repeat(4, var(--column-width));
-  align-items: start;
+  display: flex;
+  align-items: flex-start;
   gap: var(--board-gap);
   height: 100%;
   padding: var(--board-padding);
@@ -20,20 +19,21 @@
   background: var(--color-background);
 
   &__column {
+    --status-color: var(--color-todo);
+
+    flex: 0 0 var(--column-width);
     min-width: 0;
 
-    &--todo {
-      --status-color: var(--color-todo);
-    }
-
-    &--doing {
+    &:nth-child(3n + 2) {
       --status-color: var(--color-doing);
     }
 
-    &--done {
+    &:nth-child(3n + 3) {
       --status-color: var(--color-done);
     }
   }
+
+  // &__column-title: добавь text-transform: uppercase;
 
   &__column-title {
     display: flex;
@@ -66,6 +66,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    flex: 0 0 var(--column-width);
     align-self: stretch;
     min-height: rem(400);
     margin-top: calc(
@@ -111,4 +112,38 @@
     text-align: center;
     overflow-wrap: anywhere;
   }
+
+  &__no-columns {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: rem(24);
+    align-items: center;
+    align-self: center;
+    text-align: center;
+  }
+
+  &__no-columns-text {
+    margin: 0;
+    color: var(--color-muted);
+    font-size: rem(18);
+    font-weight: 700;
+    line-height: rem(23);
+  }
+
+  &__add-column {
+    min-height: rem(48);
+    padding: 0 rem(18);
+    color: var(--color-on-primary);
+    background: var(--color-primary);
+    border: 0;
+    border-radius: var(--radius-button);
+    font-size: rem(15);
+    font-weight: 700;
+
+    @include hover {
+      background: var(--color-primary-hover);
+    }
+  }
 }
+

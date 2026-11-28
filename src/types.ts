@@ -12,9 +12,21 @@ export interface Subtask {
 
 export interface Task {
   id: string;
+  boardId: Board['id'],
+  columnId: Column['id'],
   title: string;
   description: string;
-  status: 'todo' | 'doing' | 'done';
   subtasks: Subtask[];
+}
+
+export interface Column {
+  id: string;
+  name: string;
+}
+
+export interface Board {
+  id: string;
+  name: string;
+  columns: Column[];
 }
 

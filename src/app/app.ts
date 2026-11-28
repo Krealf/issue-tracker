@@ -1,26 +1,19 @@
-import { Component, signal } from '@angular/core';
-import { Header } from './header/header';
+import { Component, inject, signal } from '@angular/core';
 import { Sidebar } from './sidebar/sidebar';
-import { Dashboard } from './dashboard/dashboard';
-import { TaskCreate } from './task-create/task-create';
-import { TaskDetails } from './task-details/task-details';
-import { ModalDialog } from './modal-dialog/modal-dialog';
-import { DemoBoard } from './demo-board/demo-board';
+import { RouterOutlet } from '@angular/router';
+import { BoardService } from './services/board.service';
 
 @Component({
-  imports: [Header, Sidebar, Dashboard, TaskCreate, TaskDetails, ModalDialog, DemoBoard],
+  imports: [Sidebar, RouterOutlet],
   selector: 'app-root',
   styleUrl: './app.scss',
   templateUrl: './app.html',
   host: {
-    '[attr.data-theme]': 'darkMode() ? "dark" : "light"',
+    '[attr.data-theme]': 'isDarkMode() ? "dark" : "light"',
   },
 })
 export class App {
-  protected darkMode = signal<boolean>(false);
-  protected activeDialog = '';
+  protected readonly boardService = inject(BoardService);
 
-  protected setActiveDialog(typeDialog: string) {
-    this.activeDialog = typeDialog;
-  }
+  protected isDarkMode = signal<boolean>(false);
 }

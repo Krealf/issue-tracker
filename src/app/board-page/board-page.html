@@ -1,0 +1,36 @@
+<div class="board-page">
+  @if (board(); as board) {
+    <app-header [boardName]="board.name" />
+
+    <div class="board-page__content">
+      <nav class="column-filter" aria-label="Filter tasks by column">
+        <a class="column-filter__link"
+           [routerLink]="[]"
+           [queryParams]="{ column: null }"
+           queryParamsHandling="merge"
+           routerLinkActive="column-filter__link--active"
+           [routerLinkActiveOptions]="{ exact: true }">All</a>
+
+        @for (column of columns(); track column.id) {
+          <a class="column-filter__link"
+             [routerLink]="[]"
+             [queryParams]="{ column: column.id }"
+             queryParamsHandling="merge"
+             routerLinkActive="column-filter__link--active"
+             [routerLinkActiveOptions]="{ exact: true }">{{ column.name }}</a>
+        }
+      </nav>
+
+      <app-dashboard [columns]="columns()" />
+    </div>
+  } @else {
+    <section class="board-page__not-found" aria-labelledby="board-not-found-title">
+      <h1 class="board-page__not-found-title" id="board-not-found-title">Board not found</h1>
+      <p class="board-page__not-found-text">
+        This board doesn't exist or was deleted. Pick another one in the sidebar.
+      </p>
+    </section>
+  }
+</div>
+
+<router-outlet />

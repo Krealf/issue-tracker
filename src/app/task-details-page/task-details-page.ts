@@ -1,41 +1,23 @@
-import { Component, computed, inject, input } from '@angular/core';
-import { TaskService } from '../services/task.service';
-import { Subtask, Task } from '../../types';
-import { FormsModule } from '@angular/forms';
-import { RoutePanel } from '../route-panel/route-panel';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { Dialog } from '@angular/cdk/dialog';
+import { TaskDetailsDialog } from '../task-details-dialog/task-details-dialog';
 
 @Component({
-  imports: [FormsModule, RoutePanel],
+  imports: [],
   selector: 'app-task-details-page',
-  styleUrl: './task-details-page.scss',
-  templateUrl: './task-details-page.html',
+  template: '',
 })
 export class TaskDetailsPage {
-  private readonly taskService = inject(TaskService);
-  protected readonly taskId = input.required<Task['id']>();
-  protected readonly subtasks = computed(() => this.task()?.subtasks);
-  protected readonly task = computed(() => this.taskService.getTask(this.taskId()));
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly dialog = inject(Dialog);
 
-  protected subtasksCount = computed(() => this.subtasks()?.length);
-  protected completedSubtasksCount = computed(() =>
-    this.subtasks()?.reduce((acc, currentValue) => (currentValue.completed ? acc + 1 : acc), 0),
-  );
+  constructor() {
+    console.log('Создан компонент TaskDetailsPage');
+    const dialogRef = this.dialog.open(TaskDetailsDialog);
 
-  toggleSubtask(subtaskId: Subtask['id']) {
-    const task = this.task();
-
-    if (!task) return;
-
-    const newSubtasks = task.subtasks.map((subtask) => {
-      if (subtask.id === subtaskId) {
-        return {
-          ...subtask,
-          completed: !subtask.completed,
-        };
-      }
-      return subtask;
+    this.destroyRef.onDestroy(() => {
+      dialogRef.close()
+      console.log('Уничтожение компонента TaskDetailsPage');
     });
-
-    this.taskService.update(task.id, { subtasks: newSubtasks });
   }
 }

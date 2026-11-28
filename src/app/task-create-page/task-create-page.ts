@@ -1,62 +1,27 @@
-import { Component, inject } from '@angular/core';
-import { TaskService } from '../services/task.service';
-import { TASK_CONFIG } from '../app.config';
-import { Task } from '../../types';
-import { FormsModule } from '@angular/forms';
-import { RoutePanel } from '../route-panel/route-panel';
+import { Component, DestroyRef, inject } from '@angular/core';
+import { Dialog } from '@angular/cdk/dialog';
+import { TaskCreateDialog } from '../task-create-dialog/task-create-dialog';
 
 @Component({
-  imports: [FormsModule, RoutePanel],
+  imports: [],
   selector: 'app-task-create-page',
-  styleUrl: './task-create-page.scss',
-  templateUrl: './task-create-page.html',
+  template: '',
 })
 export class TaskCreatePage {
-  private readonly taskService = inject(TaskService);
+  private readonly destroyRef = inject(DestroyRef);
+  private readonly dialog = inject(Dialog);
 
-  private readonly taskConfig = inject(TASK_CONFIG);
+  constructor() {
+    console.log('Создан компонент TaskCreatePage');
+    const dialogRef = this.dialog.open(TaskCreateDialog)
 
-  protected taskTitle = '';
-  protected taskDescription = '';
-  protected subtasks: Task['subtasks'] = [];
+    dialogRef.closed.subscribe(result => {
+      console.log(result)
+    })
 
-  createTask() {
-    this.taskTitle = this.taskTitle.trim();
-    if (!this.taskTitle) {
-      return;
-    }
-    this.taskDescription = this.taskDescription.trim();
-    const subtasks = this.subtasks
-      .map((item) => ({
-        ...item,
-        title: item.title.trim(),
-      }))
-      .filter((item) => !!item.title);
-
-    const task = {
-      id: crypto.randomUUID(),
-      title: this.taskTitle,
-      description: this.taskDescription,
-      subtasks: subtasks,
-      columnId: 'launch-todo',
-      boardId: 'launch',
-    };
-
-    this.taskService.create(task);
-    console.log(task, this.taskService.tasks());
-  }
-
-  removeSubtask(id: string) {
-    this.subtasks = this.subtasks.filter((item) => item.id !== id);
-  }
-
-  addSubtask() {
-    if (this.subtasks.length < this.taskConfig.maxSubtasks) {
-      this.subtasks.push({
-        id: crypto.randomUUID(),
-        title: '',
-        completed: false,
-      });
-    }
+    this.destroyRef.onDestroy(() => {
+      console.log('Уничтожение компонента TaskCreatePage');
+      dialogRef.close();
+    });
   }
 }

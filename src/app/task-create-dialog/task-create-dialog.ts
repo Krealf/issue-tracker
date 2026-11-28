@@ -3,10 +3,10 @@ import { TaskService } from '../services/task.service';
 import { TASK_CONFIG } from '../app.config';
 import { Task } from '../../types';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { RoutePanel } from '../route-panel/route-panel';
+import { DialogRef } from '@angular/cdk/dialog';
 
 @Component({
-  imports: [ReactiveFormsModule, RoutePanel, FormsModule],
+  imports: [ReactiveFormsModule, FormsModule],
   selector: 'app-task-create-dialog',
   styleUrl: './task-create-dialog.scss',
   templateUrl: './task-create-dialog.html',
@@ -15,6 +15,7 @@ export class TaskCreateDialog {
   private readonly destroyRef = inject(DestroyRef);
   private readonly taskService = inject(TaskService);
   private readonly taskConfig = inject(TASK_CONFIG);
+  private readonly dialogRef = inject(DialogRef);
 
   protected taskTitle = '';
   protected taskDescription = '';
@@ -58,6 +59,10 @@ export class TaskCreateDialog {
         completed: false,
       });
     }
+  }
+
+  close(): void {
+    this.dialogRef.close()
   }
 
   constructor() {

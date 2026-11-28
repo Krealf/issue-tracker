@@ -187,4 +187,23 @@
     font-weight: 500;
     line-height: rem(18);
   }
+
+  &__close {
+    position: absolute;
+    top: rem(16);
+    right: rem(16);
+    display: grid;
+    place-items: center;
+    width: rem(24);
+    height: rem(24);
+    padding: 0;
+    color: var(--color-muted);
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+
+    @include hover {
+      color: var(--color-primary);
+    }
+  }
 }

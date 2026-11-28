@@ -1,11 +1,10 @@
 import { Component, computed, DestroyRef, inject, input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
-import { RoutePanel } from '../route-panel/route-panel';
 import { TaskService } from '../services/task.service';
 import { Subtask, Task } from '../../types';
 
 @Component({
-  imports: [ReactiveFormsModule, RoutePanel],
+  imports: [ReactiveFormsModule],
   selector: 'app-task-details-dialog',
   styleUrl: './task-details-dialog.scss',
   templateUrl: './task-details-dialog.html',

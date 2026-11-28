@@ -1,0 +1,21 @@
+@use "helpers" as *;
+
+.app-dialog-backdrop {
+  background: rgb(0 0 0 / 50%);
+}
+
+.app-dialog-panel {
+  width: min(calc(100vw - #{rem(32)}), rem(480));
+  max-height: calc(100dvh - #{rem(32)});
+  padding: rem(32);
+  overflow-y: auto;
+  color: var(--color-text);
+  background: var(--color-surface);
+  border-radius: var(--radius-card);
+}
+
+@include mobile() {
+  .app-dialog-panel {
+    padding: rem(24);
+  }
+}

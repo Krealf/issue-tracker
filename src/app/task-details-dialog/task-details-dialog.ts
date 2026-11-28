@@ -1,5 +1,4 @@
-import { Component, computed, DestroyRef, inject, input } from '@angular/core';
-import { ReactiveFormsModule } from '@angular/forms';
+import { Component, computed, inject } from '@angular/core';
 import { TaskService } from '../services/task.service';
 import { Subtask } from '../../types';
 import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
@@ -9,7 +8,6 @@ export interface TaskDetailsData {
 }
 
 @Component({
-  imports: [ReactiveFormsModule],
   selector: 'app-task-details-dialog',
   styleUrl: './task-details-dialog.scss',
   templateUrl: './task-details-dialog.html',
@@ -23,9 +21,12 @@ export class TaskDetailsDialog {
   protected readonly subtasks = computed(() => this.task()?.subtasks ?? []);
   protected readonly task = computed(() => this.taskService.getTask(this.taskId));
 
-  protected subtasksCount = computed(() => this.subtasks()?.length);
-  protected completedSubtasksCount = computed(() =>
+  protected readonly subtasksCount = computed(() => this.subtasks()?.length);
+  protected readonly completedSubtasksCount = computed(() =>
     this.subtasks()?.reduce((acc, currentValue) => (currentValue.completed ? acc + 1 : acc), 0),
+  );
+  protected readonly description = computed(
+    () => this.task()?.description?.trim() || 'No description.',
   );
 
   toggleSubtask(subtaskId: Subtask['id']) {
@@ -47,6 +48,6 @@ export class TaskDetailsDialog {
   }
 
   close() {
-    this.dialogRef.close()
+    this.dialogRef.close();
   }
 }

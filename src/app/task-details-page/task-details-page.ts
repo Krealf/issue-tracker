@@ -6,7 +6,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
-  imports: [],
   selector: 'app-task-details-page',
   template: '',
 })

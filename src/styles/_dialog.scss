@@ -1,11 +1,11 @@
-@use "helpers" as *;
+@use 'helpers' as *;
 
 .app-dialog-backdrop {
   background: rgb(0 0 0 / 50%);
 }
 
 .app-dialog-panel {
-  width: min(calc(100vw - #{rem(32)}), rem(480));
+  width: min(calc(100vw - #{rem(32)}), var(--dialog-width));
   max-height: calc(100dvh - #{rem(32)});
   padding: rem(32);
   overflow-y: auto;

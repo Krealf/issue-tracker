@@ -1,18 +1,17 @@
-import { Component, DestroyRef, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { TaskService } from '../services/task.service';
 import { TASK_CONFIG } from '../app.config';
 import { Task } from '../../types';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { DialogRef } from '@angular/cdk/dialog';
 
 @Component({
-  imports: [ReactiveFormsModule, FormsModule],
+  imports: [FormsModule],
   selector: 'app-task-create-dialog',
   styleUrl: './task-create-dialog.scss',
   templateUrl: './task-create-dialog.html',
 })
 export class TaskCreateDialog {
-  private readonly destroyRef = inject(DestroyRef);
   private readonly taskService = inject(TaskService);
   private readonly taskConfig = inject(TASK_CONFIG);
   private readonly dialogRef = inject(DialogRef);
@@ -44,7 +43,7 @@ export class TaskCreateDialog {
     };
 
     this.taskService.create(task);
-    this.dialogRef.close()
+    this.dialogRef.close();
   }
 
   removeSubtask(id: string) {
@@ -62,6 +61,6 @@ export class TaskCreateDialog {
   }
 
   close(): void {
-    this.dialogRef.close()
+    this.dialogRef.close();
   }
 }

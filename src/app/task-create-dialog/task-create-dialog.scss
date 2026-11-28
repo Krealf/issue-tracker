@@ -2,6 +2,7 @@
 
 :host {
   display: block;
+  position: relative;
 }
 
 .task-create {
@@ -190,8 +191,7 @@
 
   &__close {
     position: absolute;
-    top: rem(16);
-    right: rem(16);
+    right: rem(2);
     display: grid;
     place-items: center;
     width: rem(24);

@@ -1,7 +1,12 @@
 import { Component, computed, DestroyRef, inject, input } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { TaskService } from '../services/task.service';
-import { Subtask, Task } from '../../types';
+import { Subtask } from '../../types';
+import { DIALOG_DATA, DialogRef } from '@angular/cdk/dialog';
+
+export interface TaskDetailsData {
+  taskId: string;
+}
 
 @Component({
   imports: [ReactiveFormsModule],
@@ -10,11 +15,13 @@ import { Subtask, Task } from '../../types';
   templateUrl: './task-details-dialog.html',
 })
 export class TaskDetailsDialog {
-  private readonly destroyRef = inject(DestroyRef);
   private readonly taskService = inject(TaskService);
-  protected readonly taskId = input.required<Task['id']>();
-  protected readonly subtasks = computed(() => this.task()?.subtasks);
-  protected readonly task = computed(() => this.taskService.getTask(this.taskId()));
+  private readonly data = inject<TaskDetailsData>(DIALOG_DATA);
+  private readonly dialogRef = inject(DialogRef);
+
+  protected readonly taskId = this.data.taskId;
+  protected readonly subtasks = computed(() => this.task()?.subtasks ?? []);
+  protected readonly task = computed(() => this.taskService.getTask(this.taskId));
 
   protected subtasksCount = computed(() => this.subtasks()?.length);
   protected completedSubtasksCount = computed(() =>
@@ -39,11 +46,7 @@ export class TaskDetailsDialog {
     this.taskService.update(task.id, { subtasks: newSubtasks });
   }
 
-  constructor() {
-    console.log('Создан компонент TaskDetailsDialog');
-
-    this.destroyRef.onDestroy(() => {
-      console.log('Уничтожение компонента TaskDetailsDialog');
-    });
+  close() {
+    this.dialogRef.close()
   }
 }

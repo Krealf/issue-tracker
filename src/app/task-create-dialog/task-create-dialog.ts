@@ -44,7 +44,7 @@ export class TaskCreateDialog {
     };
 
     this.taskService.create(task);
-    console.log(task, this.taskService.tasks());
+    this.dialogRef.close()
   }
 
   removeSubtask(id: string) {
@@ -63,13 +63,5 @@ export class TaskCreateDialog {
 
   close(): void {
     this.dialogRef.close()
-  }
-
-  constructor() {
-    console.log('Создан компонент TaskCreateDialog');
-
-    this.destroyRef.onDestroy(() => {
-      console.log('Уничтожение компонента TaskCreateDialog');
-    });
   }
 }
